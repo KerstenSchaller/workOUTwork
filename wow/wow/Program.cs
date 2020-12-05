@@ -10,7 +10,7 @@ using Gma.System.MouseKeyHook.Implementation;
 
 namespace wow
 {
-    static class Program
+    static class Program 
     {
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
@@ -19,13 +19,13 @@ namespace wow
         static void Main()
         {
 
-            MouseKeyHandler mouseKeyHandler = new MouseKeyHandler();
-            mouseKeyHandler.Subscribe(Hook.GlobalEvents());
+
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
 
+            
 
 
         }
