@@ -11,13 +11,12 @@ using System.Windows.Forms;
 
 namespace wow
 {
-
-
-
     class MouseKeyHandler : ISubject
     {
+        public enum source_t { MOUSE_MOVED, KEY_PRESSED };
         private IKeyboardMouseEvents m_Events;
         private List<IObserver> _observers = new List<IObserver>();
+        private source_t source;
 
         public MouseKeyHandler() 
         {
@@ -26,47 +25,46 @@ namespace wow
 
         public void Attach(IObserver observer)
         {
-            Console.WriteLine("Subject: Attached an observer.");
             this._observers.Add(observer);
         }
 
         public void Detach(IObserver observer)
         {
             this._observers.Remove(observer);
-            Console.WriteLine("Subject: Detached an observer.");
-        }
+         }
 
         public void Notify()
         {
-            Console.WriteLine("Subject: Notifying observers...");
             foreach (var observer in _observers)
             {
                 observer.Update(this);
             }
         }
 
+        public source_t getSource() 
+        {
+            return this.source;
+        }
 
         private void Subscribe(IKeyboardMouseEvents events)
         {
             m_Events = events;
             m_Events.KeyPress += HookManager_KeyPress;
             m_Events.MouseMove += HookManager_MouseMove;
-
-
-
         }
-        /*Mouse Handlers*/
+
+
         private void HookManager_MouseMove(object sender, MouseEventArgs e)
         {
-            Console.WriteLine("mouse moved");
+            this.source = source_t.MOUSE_MOVED;
             this.Notify();
 
         }
 
         private void HookManager_KeyPress(object sender, KeyPressEventArgs e)
         {
-             Console.WriteLine("Key pressed");
-             this.Notify();
+            this.source = source_t.KEY_PRESSED;
+            this.Notify();
         }
 
 
