@@ -56,11 +56,11 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="iSubjectObserver.cs" />
-    <Compile Include="mouseKeyHandler.cs" />
+    <Compile Include="MouseKeyHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemStateHandler.cs" />
-    <Compile Include="TimePeriod.cs" />
+    <Compile Include="ActivityWatcher.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

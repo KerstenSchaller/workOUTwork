@@ -7,9 +7,15 @@ using System.Threading.Tasks;
 
 namespace wow
 {
-    class SystemStateHandler: ISubject
+    class SystemStateHandler : ISubject
     {
+        public enum state_transtition_t{IDLE_TO_ACTIVE, ACTIVE_TO_IDLE};
         private List<IObserver> _observers = new List<IObserver>();
+        private state_transtition_t stateTranstition;
+        public state_transtition_t StateTranstition
+        {
+            get { return stateTranstition; }
+        }
 
         public SystemStateHandler() 
         { 
@@ -34,25 +40,22 @@ namespace wow
             }
         }
 
-        public int lock_count = 0;
         private void SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e)
         {
             switch (e.Reason)
             {
                 case SessionSwitchReason.SessionLock:
                 case SessionSwitchReason.SessionLogoff:
-                    lock_count++;
-                    Console.WriteLine("Session state to inactive");
+                    stateTranstition = state_transtition_t.ACTIVE_TO_IDLE;
                     break;
-                case SessionSwitchReason.SessionUnlock:
                 case SessionSwitchReason.SessionLogon:
-                    Console.WriteLine("Session state to active");
+                case SessionSwitchReason.SessionUnlock:
+                    stateTranstition = state_transtition_t.IDLE_TO_ACTIVE;
                     break;
-                
                 default:
-                    Console.WriteLine("Unhandled session state switch occured");
                     break;
             }
+            Notify();
         }
     }
 }

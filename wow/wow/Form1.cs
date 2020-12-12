@@ -12,28 +12,20 @@ namespace wow
 {
     public partial class Form1 : Form, IObserver
     {
-        TimePeriod timePeriod;
-        SystemStateHandler systemStateHandler;
+        ActivityWatcher activityWatcher = new ActivityWatcher();
+
         public Form1()
         {
             InitializeComponent();
 
-            MouseKeyHandler mouseKeyHandler = new MouseKeyHandler();
-            mouseKeyHandler.Attach(this);
-            
-            timePeriod = new TimePeriod();
-
-            systemStateHandler  = new SystemStateHandler();
-            systemStateHandler.Attach(this);
-
+            activityWatcher.Attach(this);
         }
 
         public void Update(ISubject subject)
         {
-            textBox1.Text = (timePeriod.MouseCount + timePeriod.KeyCount).ToString();
-            textBox2.Text = timePeriod.MouseCount.ToString();
-            textBox3.Text = timePeriod.KeyCount.ToString();
-            textBox4.Text = systemStateHandler.lock_count.ToString();
+            if (activityWatcher.ActivityState == ActivityWatcher.activityState_t.ACTIVE) textBox1.Text = "Active";
+            if (activityWatcher.ActivityState == ActivityWatcher.activityState_t.IDLE) textBox1.Text = "Idle";
+            textBox2.Text = activityWatcher.TimeInState.ToString();
         }
 
         private void label1_Click(object sender, EventArgs e)
