@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace wow
 {
-    class ActivityWatcher : SubjectImplementation, IObserver
+    public class ActivityWatcher : SubjectImplementation, IObserver
     {
         public enum activityState_t { ACTIVE, IDLE };
         private activityState_t activityState = activityState_t.ACTIVE;
@@ -15,6 +15,7 @@ namespace wow
         private Timer activeIdleTimeout = new Timer();
         private Timer ObserUpdateTimer = new Timer();
         private Stopwatch timeInState = new Stopwatch();
+        private TimeSpan timeInLastState;
 
         public ActivityWatcher() 
         {
@@ -39,7 +40,7 @@ namespace wow
 
         private void obserUpdateCallback(object sender, EventArgs e)
         {
-            this.Notify();
+            //this.Notify();
         }
 
         public activityState_t ActivityState 
@@ -47,7 +48,12 @@ namespace wow
             get { return activityState; }
         }
 
-        public TimeSpan TimeInState 
+        public TimeSpan TimeInLastState 
+        {
+            get { return timeInLastState; }
+        }
+
+        public TimeSpan TimeInState
         {
             get { return timeInState.Elapsed; }
         }
@@ -55,6 +61,7 @@ namespace wow
         private void activeToIdle() 
         {
             activeIdleTimeout.Stop();
+            timeInLastState = timeInState.Elapsed;
             timeInState.Restart();
             activityState = activityState_t.IDLE;
             this.Notify();
@@ -63,6 +70,7 @@ namespace wow
         private void idleToActive()
         {
             activeIdleTimeout.Start();
+            timeInLastState = timeInState.Elapsed;
             timeInState.Restart();
             activityState = activityState_t.ACTIVE;
             this.Notify();
