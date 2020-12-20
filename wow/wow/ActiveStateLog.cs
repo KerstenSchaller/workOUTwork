@@ -9,24 +9,23 @@ using Microsoft.Isam.Esent.Collections.Generic;
 namespace wow
 {
 
-         class ActiveStateLog : SubjectImplementation, IObserver
-         {
-            private string pathToAppDataFolder;
-            private string logpath;
+    class ActiveStateLog : SubjectImplementation, IObserver
+    {
+        private string pathToAppDataFolder;
+        private string logpath;
 
-            [Serializable]
-            public struct logEntry_t
-            {
-                public ActivityWatcher.activityState_t newState;
-                public TimeSpan timeInState;
-            }
-
-        public int Count 
+        [Serializable]
+        public struct logEntry_t
         {
-            get 
+            public ActivityWatcher.activityState_t newState;
+            public TimeSpan timeInState;
+        }
+
+        public int Count
+        {
+            get
             {
-                string folderPath = Path.Combine(pathToAppDataFolder, "testapp", "activityLog");
-                using (PersistentDictionary<DateTime, logEntry_t> dictionary = new PersistentDictionary<DateTime, logEntry_t>(folderPath))
+                using (PersistentDictionary<DateTime, logEntry_t> dictionary = new PersistentDictionary<DateTime, logEntry_t>(logpath))
                 {
                     return dictionary.Count;
                 }
@@ -35,27 +34,20 @@ namespace wow
 
         public KeyValuePair<DateTime, logEntry_t> getLastEntry()
         {
-            string folderPath = Path.Combine(pathToAppDataFolder, "testapp", "activityLog");
-            using (PersistentDictionary<DateTime, logEntry_t> dictionary = new PersistentDictionary<DateTime, logEntry_t>(folderPath))
+            using (PersistentDictionary<DateTime, logEntry_t> dictionary = new PersistentDictionary<DateTime, logEntry_t>(logpath))
             {
-                //if (dictionary.Count > 0)
-                { 
-                    return dictionary.Last();
-                }
-
-
+                return dictionary.Last();
             }
         }
 
-        public Dictionary<DateTime, logEntry_t> getAllEntrys() 
+        public Dictionary<DateTime, logEntry_t> getAllEntrys()
         {
-            string folderPath = Path.Combine(pathToAppDataFolder, "testapp", "activityLog");
-            using (PersistentDictionary<DateTime, logEntry_t> dictionary = new PersistentDictionary<DateTime, logEntry_t>(folderPath)) 
+            using (PersistentDictionary<DateTime, logEntry_t> dictionary = new PersistentDictionary<DateTime, logEntry_t>(logpath))
             {
                 Dictionary<DateTime, logEntry_t> returnDict = new Dictionary<DateTime, logEntry_t>();
-                foreach (KeyValuePair<DateTime, logEntry_t> entry in dictionary) 
+                foreach (KeyValuePair<DateTime, logEntry_t> entry in dictionary)
                 {
-                    returnDict.Add(entry.Key,entry.Value);
+                    returnDict.Add(entry.Key, entry.Value);
                 }
                 return returnDict;
 
@@ -63,35 +55,34 @@ namespace wow
 
         }
 
-            public ActiveStateLog(string _logpath)
-            {
-                this.logpath = _logpath;
-                pathToAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            }
-
-            public void Update(ISubject subject)
-            {
-                ActivityWatcher activityWatcher = (ActivityWatcher)subject;
-                logEntry_t logEntry = new logEntry_t();
-                logEntry.newState = activityWatcher.ActivityState;
-                logEntry.timeInState = activityWatcher.TimeInLastState;
-                this.addLogEntry(logEntry);
-            }
-
-            private void addLogEntry(logEntry_t logEntry)
-            {
-                string folderPath = Path.Combine(pathToAppDataFolder, "testapp", "activityLog");
-                using (PersistentDictionary<DateTime, logEntry_t> dictionary = new PersistentDictionary<DateTime, logEntry_t>(folderPath))
-                {
-                    dictionary.Add(DateTime.Now, logEntry);
-                }
-                this.Notify();
-            }
-
-
-
+        public ActiveStateLog()
+        {
+            pathToAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            logpath = Path.Combine(pathToAppDataFolder, "testapp", "activeStateLog");
         }
+
+        public void Update(ISubject subject)
+        {
+            ActivityWatcher activityWatcher = (ActivityWatcher)subject;
+            logEntry_t logEntry = new logEntry_t();
+            logEntry.newState = activityWatcher.ActivityState;
+            logEntry.timeInState = activityWatcher.TimeInLastState;
+            this.addLogEntry(logEntry);
+        }
+
+        private void addLogEntry(logEntry_t logEntry)
+        {
+            using (PersistentDictionary<DateTime, logEntry_t> dictionary = new PersistentDictionary<DateTime, logEntry_t>(logpath))
+            {
+                dictionary.Add(DateTime.Now, logEntry);
+            }
+            this.Notify();
+        }
+
+
 
     }
 
-    
+}
+
+

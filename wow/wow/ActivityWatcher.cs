@@ -17,7 +17,7 @@ namespace wow
         private Stopwatch timeInState = new Stopwatch();
         private TimeSpan timeInLastState;
 
-        public ActivityWatcher() 
+        public void start() 
         {
             mouseKeyHandler.Attach(this);
             systemStateHandler.Attach(this);
@@ -28,7 +28,6 @@ namespace wow
             activeIdleTimeout.Tick += new EventHandler(idleTimeoutCallback);
             activeIdleTimeout.Start();
 
-            this.idleToActive();
         }
 
         private void idleTimeoutCallback(object sender, EventArgs e) 
@@ -86,7 +85,7 @@ namespace wow
 
             if (subject is SystemStateHandler) 
             {
-                switch (systemStateHandler.StateTranstition) 
+                switch (((SystemStateHandler)subject).StateTranstition) 
                 {
                     case SystemStateHandler.state_transtition_t.ACTIVE_TO_IDLE:
                         this.activeToIdle();
@@ -102,7 +101,7 @@ namespace wow
             if (subject is FocusWatcher)
             {
                 //stop timer if vmware gets active because no keyboard and mouse can be detected then
-                if (focuswatcher.ActiveWindowTitle.Contains("VMware"))
+                if (((FocusWatcher)subject).ActiveWindowTitle.Contains("VMware"))
                 {
                     if (activeIdleTimeout.Enabled)
                     {
@@ -120,6 +119,8 @@ namespace wow
                     }
                 }
             }
+
+      
 
 
         }

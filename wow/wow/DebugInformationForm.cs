@@ -7,8 +7,8 @@ namespace wow
     {
         ActivityWatcher activityWatcher = new ActivityWatcher();
         FocusWatcher focusWatcher = new FocusWatcher();
-        ActiveStateLog activeStateLog = new ActiveStateLog("testapp/activestatelog");
-   
+        ActiveStateLog activeStateLog = new ActiveStateLog();
+
         public DebugInformationForm()
         {
             InitializeComponent();
@@ -18,8 +18,10 @@ namespace wow
             activeStateLog.Attach(this);
             focusWatcher.Attach(this);
 
+            activityWatcher.start();
+
             textBoxState.Text = (activityWatcher.ActivityState == ActivityWatcher.activityState_t.ACTIVE) ? "Active" : "Idle";
-            if (activeStateLog.Count > 0) 
+            if (activeStateLog.Count > 0)
             {
                 foreach (var item in activeStateLog.getAllEntrys())
                 {
@@ -28,41 +30,47 @@ namespace wow
                     labelStateLogCount.Text = "ActiveStateLog number of entrys: " + activeStateLog.Count;
                 }
             }
-            
+
         }
 
         public void Update(ISubject subject)
         {
-            if (subject is ActivityWatcher) 
-            {     
-                if (activityWatcher.ActivityState == ActivityWatcher.activityState_t.ACTIVE) textBoxState.Text = "Active";
-                if (activityWatcher.ActivityState == ActivityWatcher.activityState_t.IDLE) textBoxState.Text = "Idle";           
+            if (subject is ActivityWatcher)
+            {
+                if (((ActivityWatcher)subject).ActivityState == ActivityWatcher.activityState_t.ACTIVE) textBoxState.Text = "Active";
+                if (((ActivityWatcher)subject).ActivityState == ActivityWatcher.activityState_t.IDLE) textBoxState.Text = "Idle";
             }
 
-            if(subject is FocusWatcher) 
+            if (subject is FocusWatcher)
             {
-                textBoxWindowTitle.Text = focusWatcher.ActiveWindowTitle;
+                textBoxWindowTitle.Text = ((FocusWatcher)subject).ActiveWindowTitle;
             }
 
             if (subject is ActiveStateLog)
             {
-                listboxactiveStateLog.Items.Add(activeStateLog.getLastEntry().Key.ToString() + " | new state:  " + activeStateLog.getLastEntry().Value.newState + " | time in state " + activeStateLog.getLastEntry().Value.timeInState);
+                if (((ActiveStateLog)subject).Count > 0)
+                {
+                    listboxactiveStateLog.Items.Add(((ActiveStateLog)subject).getLastEntry().Key.ToString() + " | new state:  " + ((ActiveStateLog)subject).getLastEntry().Value.newState + " | time in state " + activeStateLog.getLastEntry().Value.timeInState);
+                }
                 listboxactiveStateLog.SelectedIndex = listboxactiveStateLog.Items.Count - 1;
-                labelStateLogCount.Text = "ActiveStateLog number of entrys: " + activeStateLog.Count;
+                labelStateLogCount.Text = "ActiveStateLog number of entrys: " + ((ActiveStateLog)subject).Count;
             }
-           
-            
-            
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
 
         }
 
-        private void label2_Click(object sender, EventArgs e)
+
+
+    
+    private void label1_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void label2_Click(object sender, EventArgs e)
         {
 
         }
     }
 }
+
+
