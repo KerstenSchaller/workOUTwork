@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace wow
 {
@@ -23,4 +19,32 @@ namespace wow
         // Notify all observers about an event.
         void Notify();
     }
+
+    public class SubjectImplementation : ISubject
+    {
+
+        private List<IObserver> _observers = new List<IObserver>();
+        public void Attach(IObserver observer)
+        {
+            this._observers.Add(observer);
+        }
+
+        public void Detach(IObserver observer)
+        {
+            this._observers.Remove(observer);
+        }
+
+        public void Notify()
+        {
+            foreach (var observer in _observers)
+            {
+                observer.Update(this);
+            }
+        }
+
+    }
+
+
+
 }
+
