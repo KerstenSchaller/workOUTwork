@@ -18,7 +18,8 @@ namespace wow
             activeStateLog.Attach(this);
             focusWatcher.Attach(this);
 
-            if(activeStateLog.Count > 0) 
+            textBoxState.Text = (activityWatcher.ActivityState == ActivityWatcher.activityState_t.ACTIVE) ? "Active" : "Idle";
+            if (activeStateLog.Count > 0) 
             {
                 foreach (var item in activeStateLog.getAllEntrys())
                 {
@@ -34,13 +35,13 @@ namespace wow
         {
             if (subject is ActivityWatcher) 
             {     
-                if (activityWatcher.ActivityState == ActivityWatcher.activityState_t.ACTIVE) textBox1.Text = "Active";
-                if (activityWatcher.ActivityState == ActivityWatcher.activityState_t.IDLE) textBox1.Text = "Idle";           
+                if (activityWatcher.ActivityState == ActivityWatcher.activityState_t.ACTIVE) textBoxState.Text = "Active";
+                if (activityWatcher.ActivityState == ActivityWatcher.activityState_t.IDLE) textBoxState.Text = "Idle";           
             }
 
             if(subject is FocusWatcher) 
             {
-                textBox3.Text = focusWatcher.ActiveWindowTitle;
+                textBoxWindowTitle.Text = focusWatcher.ActiveWindowTitle;
             }
 
             if (subject is ActiveStateLog)
