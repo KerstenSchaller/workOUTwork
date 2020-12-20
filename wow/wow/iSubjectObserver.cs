@@ -27,6 +27,7 @@ namespace wow
         public void Attach(IObserver observer)
         {
             this._observers.Add(observer);
+            this.Notify();
         }
 
         public void Detach(IObserver observer)

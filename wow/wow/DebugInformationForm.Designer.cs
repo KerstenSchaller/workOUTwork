@@ -1,6 +1,6 @@
 ﻿namespace wow
 {
-    partial class Form1
+    partial class DebugInformationForm
     {
         /// <summary>
         /// Erforderliche Designervariable.
@@ -30,11 +30,11 @@
         {
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.listboxactiveStateLog = new System.Windows.Forms.ListBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.labelStateLogCount = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBox1
@@ -54,26 +54,10 @@
             this.label1.Text = "State";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(39, 71);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(69, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Time in State";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(140, 64);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 5;
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(39, 104);
+            this.label3.Location = new System.Drawing.Point(39, 54);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(95, 13);
             this.label3.TabIndex = 7;
@@ -81,33 +65,52 @@
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(140, 101);
+            this.textBox3.Location = new System.Drawing.Point(140, 51);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(792, 20);
             this.textBox3.TabIndex = 8;
             // 
-            // listBox1
+            // listboxactiveStateLog
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(140, 128);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(792, 199);
-            this.listBox1.TabIndex = 9;
+            this.listboxactiveStateLog.FormattingEnabled = true;
+            this.listboxactiveStateLog.Location = new System.Drawing.Point(140, 96);
+            this.listboxactiveStateLog.Name = "listboxactiveStateLog";
+            this.listboxactiveStateLog.Size = new System.Drawing.Size(792, 199);
+            this.listboxactiveStateLog.TabIndex = 9;
             // 
-            // Form1
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(39, 96);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(80, 13);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "ActiveStateLog";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // labelStateLogCount
+            // 
+            this.labelStateLogCount.AutoSize = true;
+            this.labelStateLogCount.Location = new System.Drawing.Point(137, 80);
+            this.labelStateLogCount.Name = "labelStateLogCount";
+            this.labelStateLogCount.Size = new System.Drawing.Size(167, 13);
+            this.labelStateLogCount.TabIndex = 11;
+            this.labelStateLogCount.Text = "ActiveStateLog number of entrys: ";
+            // 
+            // DebugInformationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(944, 347);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.labelStateLogCount);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.listboxactiveStateLog);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "DebugInformationForm";
+            this.Text = "DebugInformation";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -117,11 +120,11 @@
 
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox listboxactiveStateLog;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label labelStateLogCount;
     }
 }
 

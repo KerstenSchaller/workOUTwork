@@ -21,6 +21,18 @@ namespace wow
                 public TimeSpan timeInState;
             }
 
+        public int Count 
+        {
+            get 
+            {
+                string folderPath = Path.Combine(pathToAppDataFolder, "testapp", "activityLog");
+                using (PersistentDictionary<DateTime, logEntry_t> dictionary = new PersistentDictionary<DateTime, logEntry_t>(folderPath))
+                {
+                    return dictionary.Count;
+                }
+            }
+        }
+
         public KeyValuePair<DateTime, logEntry_t> getLastEntry()
         {
             string folderPath = Path.Combine(pathToAppDataFolder, "testapp", "activityLog");

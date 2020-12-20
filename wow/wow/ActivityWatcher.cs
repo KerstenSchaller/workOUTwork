@@ -8,7 +8,7 @@ namespace wow
     public class ActivityWatcher : SubjectImplementation, IObserver
     {
         public enum activityState_t { ACTIVE, IDLE };
-        private activityState_t activityState = activityState_t.ACTIVE;
+        private activityState_t activityState = activityState_t.IDLE;
         private MouseKeyHandler mouseKeyHandler = new MouseKeyHandler();
         private SystemStateHandler systemStateHandler = new SystemStateHandler();
         FocusWatcher focuswatcher = new FocusWatcher();
@@ -28,19 +28,12 @@ namespace wow
             activeIdleTimeout.Tick += new EventHandler(idleTimeoutCallback);
             activeIdleTimeout.Start();
 
-            ObserUpdateTimer.Interval = 1000;
-            ObserUpdateTimer.Tick += new EventHandler(obserUpdateCallback);
-            ObserUpdateTimer.Start();
+            this.idleToActive();
         }
 
         private void idleTimeoutCallback(object sender, EventArgs e) 
         {
             this.activeToIdle();
-        }
-
-        private void obserUpdateCallback(object sender, EventArgs e)
-        {
-            //this.Notify();
         }
 
         public activityState_t ActivityState 
