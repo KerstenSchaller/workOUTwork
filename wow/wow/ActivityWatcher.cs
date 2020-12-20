@@ -9,25 +9,18 @@ namespace wow
     {
         public enum activityState_t { ACTIVE, IDLE };
         private activityState_t activityState = activityState_t.IDLE;
-        private MouseKeyHandler mouseKeyHandler = new MouseKeyHandler();
-        private SystemStateHandler systemStateHandler = new SystemStateHandler();
-        FocusWatcher focuswatcher = new FocusWatcher();
         private Timer activeIdleTimeout = new Timer();
-        private Timer ObserUpdateTimer = new Timer();
         private Stopwatch timeInState = new Stopwatch();
         private TimeSpan timeInLastState;
 
         public void start() 
         {
-            mouseKeyHandler.Attach(this);
-            systemStateHandler.Attach(this);
-            focuswatcher.Attach(this);
             timeInState.Start();
 
             activeIdleTimeout.Interval = 10*1000;
             activeIdleTimeout.Tick += new EventHandler(idleTimeoutCallback);
             activeIdleTimeout.Start();
-
+            this.Notify();
         }
 
         private void idleTimeoutCallback(object sender, EventArgs e) 

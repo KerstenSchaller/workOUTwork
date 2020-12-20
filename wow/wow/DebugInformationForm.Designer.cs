@@ -52,7 +52,6 @@
             this.label1.Size = new System.Drawing.Size(32, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "State";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label3
             // 
@@ -86,7 +85,6 @@
             this.label2.Size = new System.Drawing.Size(80, 13);
             this.label2.TabIndex = 10;
             this.label2.Text = "ActiveStateLog";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // labelStateLogCount
             // 
