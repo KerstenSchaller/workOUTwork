@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
 
 namespace wow
@@ -51,8 +53,11 @@ namespace wow
 
         }
 
-
-
+        private void buttonOpenDataFolder_Click(object sender, EventArgs e)
+        {
+            string path = Configuration.getDataBasePath();
+            Process.Start(path);
+        }
     }
 }
 

@@ -19,9 +19,19 @@ namespace wow
 
         public static string getActiveStateLogPath() 
         {
-            string pathToAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string logpath = Path.Combine(pathToAppDataFolder, applicationName , dataBaseNameActiveStateLog);
-            return logpath;
+            string baseDataPath = getDataBasePath();
+            string logpath = Path.Combine( baseDataPath, dataBaseNameActiveStateLog);
+            return logpath;      
         }
+
+
+
+        public static string getDataBasePath() 
+        {
+            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            return Path.Combine(appDataPath, applicationName) ;
+        }
+
+
     }
 }

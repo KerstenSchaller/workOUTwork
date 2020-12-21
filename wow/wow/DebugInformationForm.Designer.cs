@@ -35,6 +35,7 @@
             this.listboxactiveStateLog = new System.Windows.Forms.ListBox();
             this.label2 = new System.Windows.Forms.Label();
             this.labelStateLogCount = new System.Windows.Forms.Label();
+            this.buttonOpenDataFolder = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBoxState
@@ -95,11 +96,22 @@
             this.labelStateLogCount.TabIndex = 11;
             this.labelStateLogCount.Text = "ActiveStateLog number of entrys: ";
             // 
+            // buttonOpenDataFolder
+            // 
+            this.buttonOpenDataFolder.Location = new System.Drawing.Point(42, 122);
+            this.buttonOpenDataFolder.Name = "buttonOpenDataFolder";
+            this.buttonOpenDataFolder.Size = new System.Drawing.Size(77, 83);
+            this.buttonOpenDataFolder.TabIndex = 12;
+            this.buttonOpenDataFolder.Text = "Go to data folder";
+            this.buttonOpenDataFolder.UseVisualStyleBackColor = true;
+            this.buttonOpenDataFolder.Click += new System.EventHandler(this.buttonOpenDataFolder_Click);
+            // 
             // DebugInformationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(944, 347);
+            this.Controls.Add(this.buttonOpenDataFolder);
             this.Controls.Add(this.labelStateLogCount);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.listboxactiveStateLog);
@@ -123,6 +135,7 @@
         private System.Windows.Forms.ListBox listboxactiveStateLog;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label labelStateLogCount;
+        private System.Windows.Forms.Button buttonOpenDataFolder;
     }
 }
 
