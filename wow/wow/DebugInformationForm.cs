@@ -5,6 +5,7 @@ namespace wow
 {
     public partial class DebugInformationForm : Form, IObserver
     {
+        private bool initialized = false;
         public DebugInformationForm()
         {
             InitializeComponent();
@@ -27,9 +28,20 @@ namespace wow
 
             if (subject is ActiveStateLog)
             {
+                if (!initialized) 
+                {
+                    
+                    var allEntrys = ((ActiveStateLog)subject).getAllEntrys();
+                    foreach (var entry in allEntrys) 
+                    {
+                        listboxactiveStateLog.Items.Add(entry.Key.ToString() + " | new state:  " + entry.Value.newState + " | time in last state " + entry.Value.timeInState);
+                    }
+                    initialized = true;
+                }
                 if (((ActiveStateLog)subject).Count > 0)
                 {
-                    listboxactiveStateLog.Items.Add(((ActiveStateLog)subject).getLastEntry().Key.ToString() + " | new state:  " + ((ActiveStateLog)subject).getLastEntry().Value.newState + " | time in last state " + ((ActiveStateLog)subject).getLastEntry().Value.timeInState);
+                    var entry = ((ActiveStateLog)subject).getLastEntry();
+                    listboxactiveStateLog.Items.Add(entry.Key.ToString() + " | new state:  " + entry.Value.newState + " | time in last state " + entry.Value.timeInState);
                 }
                 listboxactiveStateLog.SelectedIndex = listboxactiveStateLog.Items.Count - 1;
                 labelStateLogCount.Text = "ActiveStateLog number of entrys: " + ((ActiveStateLog)subject).Count;
