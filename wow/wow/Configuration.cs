@@ -8,8 +8,14 @@ namespace wow
         static string applicationName = "workOUTwork";
         static string dataBaseNameActiveStateLog = "activeStateLog";
      
-        public static string ApplicationName { get { return applicationName; } }
-        public static string DataBaseNameActiveStateLog { get { return dataBaseNameActiveStateLog; } }
+        public static string ApplicationName 
+        { 
+            get { return applicationName; } 
+        }
+        public static string DataBaseNameActiveStateLog 
+        { 
+            get { return dataBaseNameActiveStateLog; } 
+        }
 
         public static string getActiveStateLogPath() 
         {

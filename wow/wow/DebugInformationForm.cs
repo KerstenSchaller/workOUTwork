@@ -9,7 +9,7 @@ namespace wow
         public DebugInformationForm()
         {
             InitializeComponent();
-
+            this.Text = Configuration.ApplicationName + " - " + "Debug Information"; //set window title
         }
 
         public void Update(ISubject subject)
@@ -28,6 +28,7 @@ namespace wow
 
             if (subject is ActiveStateLog)
             {
+                // poplate listbox on first opening
                 if (!initialized) 
                 {
                     
@@ -38,6 +39,7 @@ namespace wow
                     }
                     initialized = true;
                 }
+                // append new entry to listbox
                 if (((ActiveStateLog)subject).Count > 0)
                 {
                     var entry = ((ActiveStateLog)subject).getLastEntry();

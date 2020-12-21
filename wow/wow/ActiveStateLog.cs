@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Isam.Esent.Collections.Generic;
 
 namespace wow
 {
-
     class ActiveStateLog : SubjectImplementation, IObserver
     {
         private string logpath;
