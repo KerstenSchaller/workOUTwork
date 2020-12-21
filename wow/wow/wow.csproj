@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActiveStateLog.cs" />
+    <Compile Include="Configuration.cs" />
     <Compile Include="FocusWatcher.cs" />
     <Compile Include="DebugInformationForm.cs">
       <SubType>Form</SubType>

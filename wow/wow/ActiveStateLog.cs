@@ -11,7 +11,6 @@ namespace wow
 
     class ActiveStateLog : SubjectImplementation, IObserver
     {
-        private string pathToAppDataFolder;
         private string logpath;
 
         [Serializable]
@@ -57,8 +56,7 @@ namespace wow
 
         public ActiveStateLog()
         {
-            pathToAppDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            logpath = Path.Combine(pathToAppDataFolder, "testapp", "activeStateLog");
+            logpath = Configuration.getActiveStateLogPath();
         }
 
         public void Update(ISubject subject)
