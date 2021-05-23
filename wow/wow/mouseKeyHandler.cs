@@ -14,6 +14,7 @@ namespace wow
         public MouseKeyHandler()
         {
             this.Subscribe(Hook.GlobalEvents());
+            TopicBroker.publishTopic("mousekeyhandler.event", this);
         }
 
         public source_t getSource() 

@@ -35,7 +35,7 @@ namespace wow
             
             
             //attaching activity watcher to the the subjects it needs
-            mouseKeyHandler.Attach(activityWatcher);
+            //mouseKeyHandler.Attach(activityWatcher);
             focusWatcher.Attach(activityWatcher);
             systemStateHandler.Attach(activityWatcher);
 

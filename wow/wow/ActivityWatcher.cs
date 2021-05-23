@@ -18,7 +18,7 @@ namespace wow
         public void start() 
         {
             timeInState.Start();
-
+            TopicBroker.subscribeTopic("mousekeyhandler.event", this);
             activeIdleTimeout.Interval = timeToIdleSeconds;
             activeIdleTimeout.Tick += new EventHandler(idleTimeoutCallback);
             activeIdleTimeout.Start();
