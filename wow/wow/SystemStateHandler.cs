@@ -4,7 +4,7 @@ namespace wow
 {
     class SystemStateHandler : SubjectImplementation
     {
-        public enum state_transtition_t{IDLE_TO_ACTIVE, ACTIVE_TO_IDLE};
+        public enum state_transtition_t{TO_ACTIVE, TO_INACTIVE};
         private state_transtition_t stateTranstition;
         public state_transtition_t StateTranstition
         {
@@ -23,11 +23,11 @@ namespace wow
             {
                 case SessionSwitchReason.SessionLock:
                 case SessionSwitchReason.SessionLogoff:
-                    stateTranstition = state_transtition_t.ACTIVE_TO_IDLE;
+                    stateTranstition = state_transtition_t.TO_INACTIVE;
                     break;
                 case SessionSwitchReason.SessionLogon:
                 case SessionSwitchReason.SessionUnlock:
-                    stateTranstition = state_transtition_t.IDLE_TO_ACTIVE;
+                    stateTranstition = state_transtition_t.TO_ACTIVE;
                     break;
                 default:
                     break;

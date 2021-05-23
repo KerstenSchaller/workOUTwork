@@ -7,17 +7,19 @@ namespace wow
 {
     public class ActivityWatcher : SubjectImplementation, IObserver
     {
-        public enum activityState_t { ACTIVE, IDLE };
-        private activityState_t activityState = activityState_t.IDLE;
+        public enum activityState_t { ACTIVE, IDLE, INACTIVE };
+        private activityState_t activityState = activityState_t.ACTIVE;
         private Timer activeIdleTimeout = new Timer();
         private Stopwatch timeInState = new Stopwatch();
         private TimeSpan timeInLastState;
+        private int timeToIdleSeconds = 15 * 1000;
+        private int timeToInactiveSeconds = 30 * 1000;
 
         public void start() 
         {
             timeInState.Start();
 
-            activeIdleTimeout.Interval = 10*1000;
+            activeIdleTimeout.Interval = timeToIdleSeconds;
             activeIdleTimeout.Tick += new EventHandler(idleTimeoutCallback);
             activeIdleTimeout.Start();
             this.Notify();
@@ -25,7 +27,17 @@ namespace wow
 
         private void idleTimeoutCallback(object sender, EventArgs e) 
         {
-            this.activeToIdle();
+            if (this.activityState == activityState_t.ACTIVE)
+            {
+                this.ToIdle();
+            }
+            else
+            {
+                if (this.activityState == activityState_t.IDLE)
+                {
+                    this.ToInactive();
+                }
+            }
         }
 
         public activityState_t ActivityState 
@@ -43,17 +55,31 @@ namespace wow
             get { return timeInState.Elapsed; }
         }
 
-        private void activeToIdle() 
+        private void ToInactive() 
+        {
+            
+            activeIdleTimeout.Stop();
+            timeInLastState = timeInState.Elapsed;
+            timeInState.Restart();
+            activityState = activityState_t.INACTIVE;
+            this.Notify();
+        }
+
+        private void ToIdle() 
         {
             activeIdleTimeout.Stop();
+            activeIdleTimeout.Interval = timeToInactiveSeconds;
+            activeIdleTimeout.Start();
             timeInLastState = timeInState.Elapsed;
             timeInState.Restart();
             activityState = activityState_t.IDLE;
             this.Notify();
         }
 
-        private void idleToActive()
+        private void ToActive()
         {
+            activeIdleTimeout.Stop();
+            activeIdleTimeout.Interval = timeToIdleSeconds;
             activeIdleTimeout.Start();
             timeInLastState = timeInState.Elapsed;
             timeInState.Restart();
@@ -65,13 +91,14 @@ namespace wow
         {
             if (subject is MouseKeyHandler) 
             {
-                if (activityState == activityState_t.IDLE)
+                if (activityState != activityState_t.ACTIVE)
                 {
-                    this.idleToActive();
+                    this.ToActive();
                 }
-                else 
-                { 
+                else
+                {
                     activeIdleTimeout.Stop();
+                    activeIdleTimeout.Interval = timeToIdleSeconds;
                     activeIdleTimeout.Start();
                 }
             }
@@ -80,17 +107,18 @@ namespace wow
             {
                 switch (((SystemStateHandler)subject).StateTranstition) 
                 {
-                    case SystemStateHandler.state_transtition_t.ACTIVE_TO_IDLE:
-                        this.activeToIdle();
+                    case SystemStateHandler.state_transtition_t.TO_INACTIVE:
+                        this.ToInactive();
                         break;
-                    case SystemStateHandler.state_transtition_t.IDLE_TO_ACTIVE:
-                        this.idleToActive();
+                    case SystemStateHandler.state_transtition_t.TO_ACTIVE:
+                        this.ToActive();
                         break;
                     default:
                         break;
                 }
             }
-            
+
+            /*
             if (subject is FocusWatcher)
             {
                 //stop timer if vmware gets active because no keyboard and mouse can be detected then
@@ -112,8 +140,9 @@ namespace wow
                     }
                 }
             }
+            */
 
-      
+
 
 
         }
