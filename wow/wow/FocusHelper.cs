@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace wow
 {
-    class FocusWatcher : SubjectImplementation
+    class FocusHelper : SubjectImplementation
     {
 
         [DllImport("user32.dll")]
