@@ -14,7 +14,6 @@ namespace wow
     {
         /* Bussines logic objects*/
         ActivityWatcher activityWatcher = new ActivityWatcher();
-        FocusWatcher focusWatcher = new FocusWatcher();
         ActiveStateLog activeStateLog = new ActiveStateLog();
         MouseKeyHandler mouseKeyHandler = new MouseKeyHandler();
         SystemStateHandler systemStateHandler = new SystemStateHandler();
@@ -32,17 +31,6 @@ namespace wow
             this.Hide();
             this.WindowState = FormWindowState.Minimized;
             this.ShowInTaskbar = false;
-            
-            
-            //attaching activity watcher to the the subjects it needs
-            //mouseKeyHandler.Attach(activityWatcher);
-            focusWatcher.Attach(activityWatcher);
-            systemStateHandler.Attach(activityWatcher);
-
-            //attaching the active statelog to the activity watcher
-            activityWatcher.Attach(activeStateLog);
-            //start watching and loggig user activity changes
-            activityWatcher.start();
 
             menuItemDebugInformation.Text = "Debug Information";
             menuItemDebugInformation.Click += MenuItenDebugInformation_Click;
@@ -60,6 +48,9 @@ namespace wow
             IntPtr Hicon = bmp.GetHicon();
             Icon newIcon = Icon.FromHandle(Hicon);
             notifyIconWOW.Icon = newIcon;
+
+            //start watching and loggig user activity changes
+            activityWatcher.start();
         }
 
         private void MenuItenExit_Click(object sender, EventArgs e)
@@ -73,11 +64,10 @@ namespace wow
             //attaching the gui to its data providers
             activityWatcher.Attach(debugInformationForm);
             activeStateLog.Attach(debugInformationForm);
-            focusWatcher.Attach(debugInformationForm);
 
+            //updating the gui initially
             debugInformationForm.Update(activityWatcher);
             debugInformationForm.Update(activeStateLog);
-            debugInformationForm.Update(focusWatcher);
 
             debugInformationForm.FormClosed += DebugInformationForm_FormClosed;
             debugInformationForm.Show();
@@ -87,7 +77,6 @@ namespace wow
         {
             activityWatcher.Detach(debugInformationForm);
             activeStateLog.Detach(debugInformationForm);
-            focusWatcher.Detach(debugInformationForm);
         }
     }
 }

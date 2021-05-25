@@ -8,21 +8,27 @@ namespace wow
     public class ActivityWatcher : SubjectImplementation, IObserver
     {
         public enum activityState_t { ACTIVE, IDLE, INACTIVE };
-        private activityState_t activityState = activityState_t.ACTIVE;
+        private activityState_t activityState = activityState_t.INACTIVE;
         private Timer activeIdleTimeout = new Timer();
         private Stopwatch timeInState = new Stopwatch();
         private TimeSpan timeInLastState;
         private int timeToIdleSeconds = 15 * 1000;
         private int timeToInactiveSeconds = 30 * 1000;
 
+        public ActivityWatcher() 
+        {
+            TopicBroker.publishTopic("ACTIVITY_STATE_CHANGE_EVENT", this);
+        }
+
         public void start() 
         {
             timeInState.Start();
-            TopicBroker.subscribeTopic("mousekeyhandler.event", this);
+            TopicBroker.subscribeTopic("MOUSE_KEY_EVENT", this);
+            TopicBroker.subscribeTopic("SYSTEM_STATE_EVENT", this);
             activeIdleTimeout.Interval = timeToIdleSeconds;
             activeIdleTimeout.Tick += new EventHandler(idleTimeoutCallback);
             activeIdleTimeout.Start();
-            this.Notify();
+            
         }
 
         private void idleTimeoutCallback(object sender, EventArgs e) 
@@ -118,34 +124,8 @@ namespace wow
                 }
             }
 
-            /*
-            if (subject is FocusWatcher)
-            {
-                //stop timer if vmware gets active because no keyboard and mouse can be detected then
-                if (((FocusWatcher)subject).ActiveWindowTitle.Contains("VMware"))
-                {
-                    if (activeIdleTimeout.Enabled)
-                    {
-                        activeIdleTimeout.Stop();
-                        Console.WriteLine("Stopping idle timeout");
-                    }
-                }
-                else
-                {
-                    //Start timer again if needed
-                    if (!activeIdleTimeout.Enabled)
-                    {
-                        //activeIdleTimeout.Start();
-                        Console.WriteLine("Starting idle timeout");
-                    }
-                }
-            }
-            */
-
-
-
-
         }
+
 
 
     }

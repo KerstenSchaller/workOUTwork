@@ -23,32 +23,30 @@ namespace wow
                 if (((ActivityWatcher)subject).ActivityState == ActivityWatcher.activityState_t.IDLE) textBoxState.Text = "Idle";
             }
 
-            if (subject is FocusWatcher)
-            {
-                textBoxWindowTitle.Text = ((FocusWatcher)subject).ActiveWindowTitle;
-            }
-
             if (subject is ActiveStateLog)
             {
                 // poplate listbox on first opening
-                if (!initialized) 
+                if (!initialized)
                 {
-                    
+
                     var allEntrys = ((ActiveStateLog)subject).getAllEntrys();
-                    foreach (var entry in allEntrys) 
+                    foreach (var entry in allEntrys)
                     {
                         listboxactiveStateLog.Items.Add(entry.Key.ToString() + " | new state:  " + entry.Value.newState + " | time in last state " + entry.Value.timeInState);
                     }
                     initialized = true;
                 }
-                // append new entry to listbox
-                if (((ActiveStateLog)subject).Count > 0)
-                {
-                    var entry = ((ActiveStateLog)subject).getLastEntry();
-                    listboxactiveStateLog.Items.Add(entry.Key.ToString() + " | new state:  " + entry.Value.newState + " | time in last state " + entry.Value.timeInState);
+                else 
+                { 
+                    // append new entry to listbox
+                    if (((ActiveStateLog)subject).Count > 0)
+                    {
+                        var entry = ((ActiveStateLog)subject).getLastEntry();
+                        listboxactiveStateLog.Items.Add(entry.Key.ToString() + " | new state:  " + entry.Value.newState + " | time in last state " + entry.Value.timeInState);
+                    }
+                    listboxactiveStateLog.SelectedIndex = listboxactiveStateLog.Items.Count - 1;
+                    labelStateLogCount.Text = "ActiveStateLog number of entrys: " + ((ActiveStateLog)subject).Count;
                 }
-                listboxactiveStateLog.SelectedIndex = listboxactiveStateLog.Items.Count - 1;
-                labelStateLogCount.Text = "ActiveStateLog number of entrys: " + ((ActiveStateLog)subject).Count;
             }
 
         }

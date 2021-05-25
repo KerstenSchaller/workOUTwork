@@ -15,18 +15,13 @@ namespace wow
 
         private System.Windows.Forms.Timer checkactiveProcessTimer = new System.Windows.Forms.Timer();
 
-        private string activeWindowTitle = "";
-
         public string ActiveWindowTitle
         {
-            get { return activeWindowTitle; }
-        }
-
-        public FocusWatcher()
-        {
-            checkactiveProcessTimer.Interval = 1000;
-            checkactiveProcessTimer.Tick += new EventHandler(checkactiveProcessTimerCallback);
-            checkactiveProcessTimer.Start();
+            get 
+            {
+                Process currentProcess = GetActiveProcess();
+                return currentProcess.MainWindowTitle; 
+            }
         }
 
         private static Process GetActiveProcess()
@@ -48,15 +43,7 @@ namespace wow
 
         
 
-        private void checkactiveProcessTimerCallback(object sender, EventArgs e)
-        {
-            Process currentProcess = GetActiveProcess();
-            if (activeWindowTitle != currentProcess.MainWindowTitle)
-            {
-                activeWindowTitle = currentProcess.MainWindowTitle;
-                this.Notify();
-            }
-        }
+      
 
 
 

@@ -51,16 +51,21 @@ namespace wow
 
         public ActiveStateLog()
         {
+            TopicBroker.subscribeTopic("ACTIVITY_STATE_CHANGE_EVENT", this);
+            TopicBroker.publishTopic("ACTIVIVE_STATE_LOG_EVENT", this);
             logpath = Configuration.getActiveStateLogPath();
         }
 
         public void Update(ISubject subject)
         {
-            ActivityWatcher activityWatcher = (ActivityWatcher)subject;
-            logEntry_t logEntry = new logEntry_t();
-            logEntry.newState = activityWatcher.ActivityState;
-            logEntry.timeInState = activityWatcher.TimeInLastState;
-            this.addLogEntry(logEntry);
+            if (subject is ActivityWatcher) 
+            { 
+                ActivityWatcher activityWatcher = (ActivityWatcher)subject;
+                logEntry_t logEntry = new logEntry_t();
+                logEntry.newState = activityWatcher.ActivityState;
+                logEntry.timeInState = activityWatcher.TimeInLastState;
+                this.addLogEntry(logEntry);
+            }
         }
 
         private void addLogEntry(logEntry_t logEntry)

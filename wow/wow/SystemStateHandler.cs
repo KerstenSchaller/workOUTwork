@@ -15,6 +15,7 @@ namespace wow
         public SystemStateHandler() 
         { 
             SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
+            TopicBroker.publishTopic("SYSTEM_STATE_EVENT", this);
         }
 
         private void SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e)

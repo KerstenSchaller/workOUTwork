@@ -30,8 +30,6 @@
         {
             this.textBoxState = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBoxWindowTitle = new System.Windows.Forms.TextBox();
             this.listboxactiveStateLog = new System.Windows.Forms.ListBox();
             this.label2 = new System.Windows.Forms.Label();
             this.labelStateLogCount = new System.Windows.Forms.Label();
@@ -53,22 +51,6 @@
             this.label1.Size = new System.Drawing.Size(32, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "State";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(39, 54);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(95, 13);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Active window title";
-            // 
-            // textBoxWindowTitle
-            // 
-            this.textBoxWindowTitle.Location = new System.Drawing.Point(140, 51);
-            this.textBoxWindowTitle.Name = "textBoxWindowTitle";
-            this.textBoxWindowTitle.Size = new System.Drawing.Size(792, 20);
-            this.textBoxWindowTitle.TabIndex = 8;
             // 
             // listboxactiveStateLog
             // 
@@ -115,8 +97,6 @@
             this.Controls.Add(this.labelStateLogCount);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.listboxactiveStateLog);
-            this.Controls.Add(this.textBoxWindowTitle);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxState);
             this.Name = "DebugInformationForm";
@@ -130,8 +110,6 @@
 
         private System.Windows.Forms.TextBox textBoxState;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBoxWindowTitle;
         private System.Windows.Forms.ListBox listboxactiveStateLog;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label labelStateLogCount;

@@ -59,6 +59,8 @@ namespace wow
         public static void publishTopic(string topic, ISubject subject) 
         {
             subjectMap.Add(topic, subject);
+
+        //go through waitlist and see if theres an observer waiting for the topic
             foreach (TopicObserver topicObserver in observerWaitList) 
             {
                 if( topicObserver.topic == topic) 
@@ -76,6 +78,7 @@ namespace wow
             }
             else
             {
+                //topic not available, put on waitlist
                 TopicObserver topicObserver;
                 topicObserver.topic = topic;
                 topicObserver.observer = observer;
