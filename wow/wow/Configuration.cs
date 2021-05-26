@@ -1,6 +1,7 @@
 ﻿using Microsoft.Isam.Esent.Collections.Generic;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 
 namespace wow
@@ -31,6 +32,14 @@ namespace wow
                 addConfigEntry("secondsToIdle", 3);
                 addConfigEntry("secondsToInactive", 5);
             }
+        }
+
+        public Icon getApplicationIcon() 
+        {
+            Bitmap bmp = new Bitmap(System.Reflection.Assembly.GetEntryAssembly().GetManifestResourceStream("wow.systray_icon_32.png"));
+            IntPtr Hicon = bmp.GetHicon();
+            Icon newIcon = Icon.FromHandle(Hicon);
+            return newIcon;
         }
 
         private void addConfigEntry(string key, string configEntryValue)

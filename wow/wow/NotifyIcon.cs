@@ -50,10 +50,7 @@ namespace wow
             notifyIconWOW.ContextMenu = contextmenu;
             notifyIconWOW.Visible = true;
 
-            Bitmap bmp = new Bitmap( System.Reflection.Assembly.GetEntryAssembly().GetManifestResourceStream("wow.systray_icon_32.png"));
-            IntPtr Hicon = bmp.GetHicon();
-            Icon newIcon = Icon.FromHandle(Hicon);
-            notifyIconWOW.Icon = newIcon;
+            notifyIconWOW.Icon = new Configuration().getApplicationIcon();
 
             //start watching and loggig user activity changes
             activityWatcher.start();

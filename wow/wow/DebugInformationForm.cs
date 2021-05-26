@@ -11,6 +11,7 @@ namespace wow
         public DebugInformationForm()
         {
             InitializeComponent();
+            this.Icon = new Configuration().getApplicationIcon();
             Configuration config = new Configuration();
             this.Text = config.ApplicationName + " - " + "Debug Information"; //set window title
         }

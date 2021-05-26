@@ -16,6 +16,7 @@ namespace wow
         public ConfigChangeDialogForm(string _key, string _value)
         {
             InitializeComponent();
+            this.Icon = new Configuration().getApplicationIcon();
             key = _key;
             label1.Text = key;
             textBox_value.Text = _value;

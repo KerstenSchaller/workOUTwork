@@ -16,6 +16,7 @@ namespace wow
         public ConfigForm()
         {
             InitializeComponent();
+            this.Icon = new Configuration().getApplicationIcon();
             listView1.View = View.Details;
             listView1.LabelEdit = true;
             listView1.MultiSelect = false;
@@ -51,12 +52,16 @@ namespace wow
         {
             Configuration config = new Configuration();
             var dict = config.getAllEntrys();
-            int selectedIndex = listView1.SelectedIndices[0];
-            string key = listView1.Items[selectedIndex].SubItems[0].Text;
+            try
+            {
+                int selectedIndex = listView1.SelectedIndices[0];
+                string key = listView1.Items[selectedIndex].SubItems[0].Text;
 
-            ConfigChangeDialogForm configChanger = new ConfigChangeDialogForm(key, dict[key]);
-            configChanger.FormClosed += ConfigChangeDialogFormClosedHandler;
-            configChanger.Show();
+                ConfigChangeDialogForm configChanger = new ConfigChangeDialogForm(key, dict[key]);
+                configChanger.FormClosed += ConfigChangeDialogFormClosedHandler;
+                configChanger.Show();
+            }
+            catch{ }
         }
 
         private void ConfigChangeDialogFormClosedHandler(object sender, EventArgs e)
