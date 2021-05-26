@@ -112,9 +112,9 @@ namespace wow
                 }
             }
 
-            if (subject is SystemStateHandler) 
+            if (subject is SystemStateHandler systemStateHandler) 
             {
-                switch (((SystemStateHandler)subject).StateTranstition) 
+                switch (systemStateHandler.StateTranstition)
                 {
                     case SystemStateHandler.state_transtition_t.TO_INACTIVE:
                         this.ToInactive();

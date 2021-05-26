@@ -6,7 +6,7 @@ namespace wow
 {
     class ActiveStateLog : SubjectImplementation, IObserver
     {
-        private string logpath;
+        private readonly string logpath;
 
         [Serializable]
         public struct logEntry_t
@@ -59,10 +59,10 @@ namespace wow
 
         public void Update(ISubject subject)
         {
-            if (subject is ActivityWatcher) 
+            if (subject is ActivityWatcher activityWatcher) 
             { 
-                ActivityWatcher activityWatcher = (ActivityWatcher)subject;
-                logEntry_t logEntry = new logEntry_t();
+                //ActivityWatcher activityWatcher = (ActivityWatcher)subject;
+                logEntry_t logEntry;
                 logEntry.newState = activityWatcher.ActivityState;
                 logEntry.timeInState = activityWatcher.TimeInLastState;
                 this.addLogEntry(logEntry);

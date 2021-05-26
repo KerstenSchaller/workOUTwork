@@ -19,19 +19,19 @@ namespace wow
         public void Update(ISubject subject)
         {
             // update gui depending on sender
-            if (subject is ActivityWatcher)
+            if (subject is ActivityWatcher activityWatcher)
             {
-                if (((ActivityWatcher)subject).ActivityState == ActivityWatcher.activityState_t.ACTIVE) textBoxState.Text = "Active";
-                if (((ActivityWatcher)subject).ActivityState == ActivityWatcher.activityState_t.IDLE) textBoxState.Text = "Idle";
+                if (activityWatcher.ActivityState == ActivityWatcher.activityState_t.ACTIVE) textBoxState.Text = "Active";
+                if (activityWatcher.ActivityState == ActivityWatcher.activityState_t.IDLE) textBoxState.Text = "Idle";
             }
 
-            if (subject is ActiveStateLog)
+            if (subject is ActiveStateLog activeStateLog)
             {
                 // poplate listbox on first opening
                 if (!initialized)
                 {
 
-                    var allEntrys = ((ActiveStateLog)subject).getAllEntrys();
+                    var allEntrys = activeStateLog.getAllEntrys();
                     foreach (var entry in allEntrys)
                     {
                         listboxactiveStateLog.Items.Add(entry.Key.ToString() + " | new state:  " + entry.Value.newState + " | time in last state " + entry.Value.timeInState);
