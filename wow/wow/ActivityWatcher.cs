@@ -12,8 +12,8 @@ namespace wow
         private Timer activeIdleTimeout = new Timer();
         private Stopwatch timeInState = new Stopwatch();
         private TimeSpan timeInLastState;
-        private int timeToIdleMilliSeconds = 3 * 1000;
-        private int timeToInactiveMilliSeconds = 3 * 1000;
+        private int timeToIdleMilliSeconds = 5 * 60 * 1000;
+        private int timeToInactiveMilliSeconds = 20 * 60 * 1000;
 
         public ActivityWatcher() 
         {
