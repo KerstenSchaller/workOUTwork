@@ -53,7 +53,8 @@ namespace wow
         {
             TopicBroker.subscribeTopic("ACTIVITY_STATE_CHANGE_EVENT", this);
             TopicBroker.publishTopic("ACTIVIVE_STATE_LOG_EVENT", this);
-            logpath = Configuration.getActiveStateLogPath();
+            Configuration config = new Configuration();
+            logpath = config.getActiveStateLogPath();
         }
 
         public void Update(ISubject subject)

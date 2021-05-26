@@ -21,8 +21,10 @@ namespace wow
         /*Gui objects*/
         ContextMenu contextmenu = new ContextMenu();
         MenuItem menuItemDebugInformation = new MenuItem();
+        MenuItem menuItemConfigurationGui = new MenuItem();
         MenuItem menuItemExit = new MenuItem();
         DebugInformationForm debugInformationForm;
+        ConfigForm configurationForm;
 
         public NotifyIcon()
         {
@@ -34,11 +36,15 @@ namespace wow
 
             menuItemDebugInformation.Text = "Debug Information";
             menuItemDebugInformation.Click += MenuItenDebugInformation_Click;
-            
+
+            menuItemConfigurationGui.Text = "Configuration";
+            menuItemConfigurationGui.Click += MenuItenConfig_Click;
+
             menuItemExit.Text = "Exit";
             menuItemExit.Click += MenuItenExit_Click;
 
             contextmenu.MenuItems.Add(menuItemDebugInformation);
+            contextmenu.MenuItems.Add(menuItemConfigurationGui);
             contextmenu.MenuItems.Add(menuItemExit);
 
             notifyIconWOW.ContextMenu = contextmenu;
@@ -71,6 +77,12 @@ namespace wow
 
             debugInformationForm.FormClosed += DebugInformationForm_FormClosed;
             debugInformationForm.Show();
+        }
+
+        private void MenuItenConfig_Click(object sender, EventArgs e)
+        {
+            configurationForm = new ConfigForm();
+            configurationForm.Show();
         }
 
         private void DebugInformationForm_FormClosed(object sender, FormClosedEventArgs e)

@@ -12,11 +12,14 @@ namespace wow
         private Timer activeIdleTimeout = new Timer();
         private Stopwatch timeInState = new Stopwatch();
         private TimeSpan timeInLastState;
-        private int timeToIdleSeconds = 15 * 1000;
-        private int timeToInactiveSeconds = 30 * 1000;
+        private int timeToIdleMilliSeconds = 3 * 1000;
+        private int timeToInactiveMilliSeconds = 3 * 1000;
 
         public ActivityWatcher() 
         {
+            Configuration config = new Configuration();
+            timeToIdleMilliSeconds = config.secondsToIdle * 1000;
+            timeToInactiveMilliSeconds = config.secondsToInactive * 1000;
             TopicBroker.publishTopic("ACTIVITY_STATE_CHANGE_EVENT", this);
         }
 
@@ -25,7 +28,7 @@ namespace wow
             timeInState.Start();
             TopicBroker.subscribeTopic("MOUSE_KEY_EVENT", this);
             TopicBroker.subscribeTopic("SYSTEM_STATE_EVENT", this);
-            activeIdleTimeout.Interval = timeToIdleSeconds;
+            activeIdleTimeout.Interval = timeToIdleMilliSeconds;
             activeIdleTimeout.Tick += new EventHandler(idleTimeoutCallback);
             activeIdleTimeout.Start();
             
@@ -74,7 +77,7 @@ namespace wow
         private void ToIdle() 
         {
             activeIdleTimeout.Stop();
-            activeIdleTimeout.Interval = timeToInactiveSeconds;
+            activeIdleTimeout.Interval = timeToInactiveMilliSeconds;
             activeIdleTimeout.Start();
             timeInLastState = timeInState.Elapsed;
             timeInState.Restart();
@@ -85,7 +88,7 @@ namespace wow
         private void ToActive()
         {
             activeIdleTimeout.Stop();
-            activeIdleTimeout.Interval = timeToIdleSeconds;
+            activeIdleTimeout.Interval = timeToIdleMilliSeconds;
             activeIdleTimeout.Start();
             timeInLastState = timeInState.Elapsed;
             timeInState.Restart();
@@ -104,7 +107,7 @@ namespace wow
                 else
                 {
                     activeIdleTimeout.Stop();
-                    activeIdleTimeout.Interval = timeToIdleSeconds;
+                    activeIdleTimeout.Interval = timeToIdleMilliSeconds;
                     activeIdleTimeout.Start();
                 }
             }
