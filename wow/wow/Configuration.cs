@@ -29,8 +29,9 @@ namespace wow
             if (count == 0)
             {
                 addConfigEntry("dataBaseNameActiveStateLog", "activeStateLog");
-                addConfigEntry("secondsToIdle", 3);
-                addConfigEntry("secondsToInactive", 5);
+                addConfigEntry("secondsToIdle", 3 * 60 * 1000);
+                addConfigEntry("secondsToInactive", 5 * 60 * 1000);
+                addConfigEntry("MinutesNoBreakWarning", 1);
             }
         }
 
@@ -53,7 +54,7 @@ namespace wow
             }
         }
 
-        public string getValue(string key) 
+        public string getValueString(string key) 
         {
             using (PersistentDictionary<string, string> dictionary = new PersistentDictionary<string, string>(getConfigLogPath()))
             {
@@ -105,25 +106,19 @@ namespace wow
         { 
             get { return applicationName; } 
         }
-        public string DataBaseNameActiveStateLog 
-        { 
+        public string DataBaseNameActiveStateLog
+        {
             get
             {
-                using (PersistentDictionary<string, string> dictionary = new PersistentDictionary<string, string>(getConfigLogPath()))
-                {                    
-                    return dictionary["dataBaseNameActiveStateLog"];
-                }
-            } 
+                return getValueString("dataBaseNameActiveStateLog");
+            }
         }
 
         public int secondsToIdle
         {
             get
             {
-                using (PersistentDictionary<string, string> dictionary = new PersistentDictionary<string, string>(getConfigLogPath()))
-                {
-                    return Int32.Parse(dictionary["secondsToIdle"]);
-                }
+                return Int32.Parse(getValueString("secondsToIdle"));
             }
         }
 
@@ -131,11 +126,15 @@ namespace wow
         {
             get
             {
-                using (PersistentDictionary<string, string> dictionary = new PersistentDictionary<string, string>(getConfigLogPath()))
-                {
-                    return Int32.Parse(dictionary["secondsToInactive"]);
-                }
+                return Int32.Parse(getValueString("secondsToInactive"));
+
             }
+        }
+
+
+        public int getNoBreakWarningTimeMinutes()
+        {
+            return Int32.Parse(getValueString("MinutesNoBreakWarning"));
         }
 
         public string getActiveStateLogPath() 
@@ -157,6 +156,8 @@ namespace wow
             string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             return Path.Combine(appDataPath, applicationName) ;
         }
+
+
 
 
     }

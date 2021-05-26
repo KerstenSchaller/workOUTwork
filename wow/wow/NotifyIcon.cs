@@ -17,6 +17,7 @@ namespace wow
         ActiveStateLog activeStateLog = new ActiveStateLog();
         MouseKeyHandler mouseKeyHandler = new MouseKeyHandler();
         SystemStateHandler systemStateHandler = new SystemStateHandler();
+        NoBreakWarner noBreakWarner = new NoBreakWarner();
 
         /*Gui objects*/
         ContextMenu contextmenu = new ContextMenu();
