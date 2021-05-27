@@ -11,13 +11,12 @@ namespace wow
     class IndividualLockScreen
     {
         Timer timer = new Timer();
-        bool state = true;
+        int loopCounter = 0;
+        string[] files;
 
         public IndividualLockScreen()
         {
-            //string filename = "IMG_5196.jpg";
-            string filename = "IMG_5196_2.jpg";
-            var t = setLockScreen(filename);
+            
 
             timer.Interval = 5 * 1000;
             timer.Tick += Timer_Tick;
@@ -26,18 +25,23 @@ namespace wow
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if (state)
+
+            lockScreenSlideShow(@"C:\Users\kerst\Desktop\bouldern_dez2020\ausgewählt\einzeön");
+            timer.Start();
+        }
+
+        public void lockScreenSlideShow(string path) 
+        {
+            files = loadImagesFromFolder(path);
+            setLockScreen(files[loopCounter]);
+            if (loopCounter < (files.Length - 1))
             {
-                var t = setLockScreen("IMG_5196.jpg");
-                timer.Start();
-                state = false;
+                loopCounter++;
             }
             else
             {
-                var t = setLockScreen("IMG_5196_2.jpg");
-                timer.Start();
-                state = true;
-            }    
+                loopCounter = 0;
+            }
         }
 
         public async Task setLockScreen(string filename)
@@ -46,6 +50,11 @@ namespace wow
             string path = Path.Combine(directory, filename);
             StorageFile imageFile = await StorageFile.GetFileFromPathAsync(path);
             await LockScreen.SetImageFileAsync(imageFile);
+        }
+
+        public string[] loadImagesFromFolder(string path) 
+        {
+            return Directory.GetFiles(path);
         }
 
 

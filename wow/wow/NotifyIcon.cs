@@ -19,7 +19,7 @@ namespace wow
         SystemStateHandler systemStateHandler = new SystemStateHandler();
         NoBreakWarner noBreakWarner = new NoBreakWarner();
 
-        //IndividualLockScreen individualLockScreen = new IndividualLockScreen();
+        IndividualLockScreen individualLockScreen = new IndividualLockScreen();
 
         /*Gui objects*/
         ContextMenu contextmenu = new ContextMenu();
