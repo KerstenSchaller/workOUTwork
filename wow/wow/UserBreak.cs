@@ -13,7 +13,7 @@ namespace wow
         [DllImport("user32.dll")]
         private static extern bool LockWorkStation();
 
-        IndividualLockScreen individualLockScreen = new IndividualLockScreen();
+        IndividualLockScreen individualLockScreen = IndividualLockScreen.Instance;
         Timer breakTimer = new Timer();
         Timer updateTimer = new Timer();
         Stopwatch stopwatch = new Stopwatch();
@@ -23,7 +23,7 @@ namespace wow
         private int millisecondsMinimumBreakTime;
 
 
-        public void startBreak() 
+        public async void startBreak() 
         {
             new Configuration().addConfigEntry(MinutesMinimumBreakTimeString, 1);
             millisecondsMinimumBreakTime = Int32.Parse(new Configuration().getValueString(MinutesMinimumBreakTimeString)) * 60 * 1000;
@@ -31,7 +31,7 @@ namespace wow
             updateTimer.Tick += UpdateTimer_Tick;
             updateTimer.Start();
             stopwatch.Start();
-            individualLockScreen.setInformationtalLockscreen("", System.Drawing.Color.DarkRed);
+            await individualLockScreen.setInformationtalLockscreen("", System.Drawing.Color.DarkRed);
             LockWorkStation();
         }
 

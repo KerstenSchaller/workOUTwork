@@ -14,6 +14,7 @@ namespace wow
         private TimeSpan timeInLastState;
         private int timeToIdleMilliSeconds = 5 * 60 * 1000;
         private int timeToInactiveMilliSeconds = 20 * 60 * 1000;
+        private bool sensitiveToMouseKeyHandler = true;
 
         public ActivityWatcher() 
         {
@@ -70,7 +71,7 @@ namespace wow
 
         private void ToInactive() 
         {
-            
+            sensitiveToMouseKeyHandler = false;
             activeIdleTimeout.Stop();
             timeInLastState = timeInState.Elapsed;
             timeInState.Restart();
@@ -91,6 +92,7 @@ namespace wow
 
         private void ToActive()
         {
+            sensitiveToMouseKeyHandler = true;
             activeIdleTimeout.Stop();
             activeIdleTimeout.Interval = timeToIdleMilliSeconds;
             activeIdleTimeout.Start();
@@ -102,7 +104,7 @@ namespace wow
 
         public void Update(ISubject subject)
         {
-            if (subject is MouseKeyHandler) 
+            if ((subject is MouseKeyHandler) && (sensitiveToMouseKeyHandler == true)) 
             {
                 if (activityState != activityState_t.ACTIVE)
                 {

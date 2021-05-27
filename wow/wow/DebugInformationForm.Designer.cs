@@ -34,6 +34,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.labelStateLogCount = new System.Windows.Forms.Label();
             this.buttonOpenDataFolder = new System.Windows.Forms.Button();
+            this.buttonManualBreak = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBoxState
@@ -88,11 +89,22 @@
             this.buttonOpenDataFolder.UseVisualStyleBackColor = true;
             this.buttonOpenDataFolder.Click += new System.EventHandler(this.buttonOpenDataFolder_Click);
             // 
+            // buttonManualBreak
+            // 
+            this.buttonManualBreak.Location = new System.Drawing.Point(3, 211);
+            this.buttonManualBreak.Name = "buttonManualBreak";
+            this.buttonManualBreak.Size = new System.Drawing.Size(133, 23);
+            this.buttonManualBreak.TabIndex = 14;
+            this.buttonManualBreak.Text = "Start break manually";
+            this.buttonManualBreak.UseVisualStyleBackColor = true;
+            this.buttonManualBreak.Click += new System.EventHandler(this.buttonManualBreak_Click);
+            // 
             // DebugInformationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(944, 347);
+            this.Controls.Add(this.buttonManualBreak);
             this.Controls.Add(this.buttonOpenDataFolder);
             this.Controls.Add(this.labelStateLogCount);
             this.Controls.Add(this.label2);
@@ -114,6 +126,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label labelStateLogCount;
         private System.Windows.Forms.Button buttonOpenDataFolder;
+        private System.Windows.Forms.Button buttonManualBreak;
     }
 }
 

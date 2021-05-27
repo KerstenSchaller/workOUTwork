@@ -59,6 +59,12 @@ namespace wow
             string path = config.getDataBasePath();
             Process.Start(path);
         }
+
+        private void buttonManualBreak_Click(object sender, EventArgs e)
+        {
+            UserBreak ubreak = new UserBreak();
+            ubreak.startBreak();
+        }
     }
 }
 
