@@ -73,6 +73,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActiveStateLog.cs" />
+    <Compile Include="DilbertComicDownloader.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ScreenImageComposer.cs" />
     <Compile Include="UserBreak.cs" />
     <Compile Include="ConfigChangeDialogForm.cs">
