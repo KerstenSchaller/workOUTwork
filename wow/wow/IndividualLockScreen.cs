@@ -16,7 +16,7 @@ namespace wow
 
         public IndividualLockScreen()
         {
-            
+
 
             timer.Interval = 5 * 1000;
             timer.Tick += Timer_Tick;

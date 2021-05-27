@@ -14,8 +14,10 @@ namespace wow
 
         public NoBreakWarner()
         {
+            Configuration config = new Configuration();
+            config.addConfigEntry("MinutesNoBreakWarning", 1);
+            noBreakTimer.Interval = new Configuration().getNoBreakWarningTimeMinutes() * 60 * 1000;
             TopicBroker.subscribeTopic("ACTIVITY_STATE_CHANGE_EVENT", this);
-            noBreakTimer.Interval = new Configuration().getNoBreakWarningTimeMinutes()*60*1000;
             noBreakTimer.Tick += NoBreakTimer_Tick;
         }
 

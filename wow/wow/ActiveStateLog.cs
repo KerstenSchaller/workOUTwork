@@ -51,6 +51,7 @@ namespace wow
 
         public ActiveStateLog()
         {
+            new Configuration().addConfigEntry("dataBaseNameActiveStateLog", "activeStateLog");
             TopicBroker.subscribeTopic("ACTIVITY_STATE_CHANGE_EVENT", this);
             TopicBroker.publishTopic("ACTIVIVE_STATE_LOG_EVENT", this);
             Configuration config = new Configuration();

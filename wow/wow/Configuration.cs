@@ -14,27 +14,6 @@ namespace wow
 
         static string dataBaseNameActiveStateLog = "activeStateLog";
 
-        public Configuration()
-        {
-            initializeConfigDatabase();
-        }
-
-        public void initializeConfigDatabase()
-        {
-            int count = 0;
-            using (PersistentDictionary<string, string> dictionary = new PersistentDictionary<string, string>(getConfigLogPath()))
-            {
-                count = dictionary.Count;
-            }
-            if (count == 0)
-            {
-                addConfigEntry("dataBaseNameActiveStateLog", "activeStateLog");
-                addConfigEntry("secondsToIdle", 3 * 60 * 1000);
-                addConfigEntry("secondsToInactive", 5 * 60 * 1000);
-                addConfigEntry("MinutesNoBreakWarning", 1);
-            }
-        }
-
         public Icon getApplicationIcon() 
         {
             Bitmap bmp = new Bitmap(System.Reflection.Assembly.GetEntryAssembly().GetManifestResourceStream("wow.systray_icon_32.png"));
@@ -43,7 +22,7 @@ namespace wow
             return newIcon;
         }
 
-        private void addConfigEntry(string key, string configEntryValue)
+        public void addConfigEntry(string key, string configEntryValue)
         {
             using (PersistentDictionary<string, string> dictionary = new PersistentDictionary<string, string>(getConfigLogPath()))
             {
@@ -68,11 +47,11 @@ namespace wow
                 }
             }
         }
-        private void addConfigEntry(string key, int configEntryValue)
+        public void addConfigEntry(string key, int configEntryValue)
         {
             addConfigEntry(key, Convert.ToString(configEntryValue));
         }
-        private void addConfigEntry(string key, float configEntryValue)
+        public void addConfigEntry(string key, float configEntryValue)
         {
             addConfigEntry(key, Convert.ToString(configEntryValue));
         }

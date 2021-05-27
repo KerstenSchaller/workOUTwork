@@ -18,6 +18,10 @@ namespace wow
         public ActivityWatcher() 
         {
             Configuration config = new Configuration();
+
+            config.addConfigEntry("secondsToIdle", 3 * 60 * 1000);
+            config.addConfigEntry("secondsToInactive", 5 * 60 * 1000);
+            
             timeToIdleMilliSeconds = config.secondsToIdle * 1000;
             timeToInactiveMilliSeconds = config.secondsToInactive * 1000;
             TopicBroker.publishTopic("ACTIVITY_STATE_CHANGE_EVENT", this);
