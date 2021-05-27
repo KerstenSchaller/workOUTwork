@@ -5,44 +5,12 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System.UserProfile;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace wow
 {
     class IndividualLockScreen
     {
-        Timer timer = new Timer();
-        int loopCounter = 0;
-        string[] files;
-
-        public IndividualLockScreen()
-        {
-
-
-            timer.Interval = 5 * 1000;
-            timer.Tick += Timer_Tick;
-            timer.Start();
-        }
-
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-
-            lockScreenSlideShow(@"C:\Users\kerst\Desktop\bouldern_dez2020\ausgewählt\einzeön");
-            timer.Start();
-        }
-
-        public void lockScreenSlideShow(string path) 
-        {
-            files = loadImagesFromFolder(path);
-            setLockScreen(files[loopCounter]);
-            if (loopCounter < (files.Length - 1))
-            {
-                loopCounter++;
-            }
-            else
-            {
-                loopCounter = 0;
-            }
-        }
 
         public async Task setLockScreen(string filename)
         {
@@ -52,9 +20,12 @@ namespace wow
             await LockScreen.SetImageFileAsync(imageFile);
         }
 
-        public string[] loadImagesFromFolder(string path) 
+        public async void setInformationtalLockscreen(string text, Color textColor)
         {
-            return Directory.GetFiles(path);
+            ScreenImageComposer screenImageComposer = new ScreenImageComposer();
+            screenImageComposer.createScreenImageWithText(0, 0, text, textColor, Color.Black, "tempLockScreen.jpg");
+            await setLockScreen("tempLockScreen.jpg");
+            File.Delete("tempLockScreen.jpg");
         }
 
 
