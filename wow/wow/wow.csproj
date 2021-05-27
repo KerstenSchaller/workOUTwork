@@ -53,6 +53,11 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.WindowsRuntime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETCore\v4.5\System.Runtime.WindowsRuntime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -62,6 +67,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="Windows">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Windows Kits\10\UnionMetadata\Windows.winmd</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActiveStateLog.cs" />
@@ -85,6 +93,7 @@
       <DependentUpon>DebugInformationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FocusHelper.cs" />
+    <Compile Include="IndividualLockScreen.cs" />
     <Compile Include="iSubjectObserver.cs" />
     <Compile Include="MouseKeyHandler.cs" />
     <Compile Include="NoBreakWarner.cs" />
@@ -129,6 +138,28 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Assets.xcassets\background-rounded.imageset\background-rounded.pdf" />
+    <None Include="Assets.xcassets\background-rounded.imageset\Contents.json" />
+    <None Include="Assets.xcassets\button-camera.imageset\button-camera.pdf" />
+    <None Include="Assets.xcassets\button-camera.imageset\Contents.json" />
+    <None Include="Assets.xcassets\button-photo-library.imageset\button-photo-library.pdf" />
+    <None Include="Assets.xcassets\button-photo-library.imageset\Contents.json" />
+    <None Include="Assets.xcassets\Contents.json" />
+    <None Include="Assets.xcassets\gradient.imageset\Contents.json" />
+    <None Include="Assets.xcassets\icon-badge-livephoto.imageset\Contents.json" />
+    <None Include="Assets.xcassets\icon-badge-livephoto.imageset\icon-badge-livephoto.pdf" />
+    <None Include="Assets.xcassets\icon-badge-video.imageset\Contents.json" />
+    <None Include="Assets.xcassets\icon-badge-video.imageset\icon-badge-video.pdf" />
+    <None Include="Assets.xcassets\icon-check-background.imageset\Contents.json" />
+    <None Include="Assets.xcassets\icon-check-background.imageset\icon-ckeck-background.pdf" />
+    <None Include="Assets.xcassets\icon-check.imageset\Contents.json" />
+    <None Include="Assets.xcassets\icon-check.imageset\icon-check.pdf" />
+    <None Include="Assets.xcassets\icon-flip-camera.imageset\Contents.json" />
+    <None Include="Assets.xcassets\icon-flip-camera.imageset\flipCamera.pdf" />
+    <None Include="Assets.xcassets\icon-live-off.imageset\Contents.json" />
+    <None Include="Assets.xcassets\icon-live-off.imageset\icon-live-off.pdf" />
+    <None Include="Assets.xcassets\icon-live-on.imageset\Contents.json" />
+    <None Include="Assets.xcassets\icon-live-on.imageset\icon-live-on.pdf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -145,6 +176,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="systray_icon_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets.xcassets\gradient.imageset\gradient%402x.png" />
+    <Content Include="Assets.xcassets\gradient.imageset\gradient%403x.png" />
+    <Content Include="Assets.xcassets\gradient.imageset\gradient.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
