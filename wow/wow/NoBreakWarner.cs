@@ -31,14 +31,11 @@ namespace wow
             noBreakTimer.Tick += NoBreakTimer_Tick;
         }
 
-
-
         private void NoBreakTimer_Tick(object sender, EventArgs e)
         {
             NoBreakWarningForm noBreakWarningForm = new NoBreakWarningForm();
             noBreakWarningForm.FormClosed += NoBreakWarningForm_FormClosed;
             noBreakWarningForm.Show();
-
         }
 
         private void NoBreakWarningForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -47,6 +44,8 @@ namespace wow
             switch (response)
             {
                 case BreakRequestUserResponse.ACCEPT:
+                    UserBreak ubreak = new UserBreak();
+                    ubreak.startBreak();
                     break;
                 case BreakRequestUserResponse.SNOOZE:
                     noBreakTimer.Stop();
