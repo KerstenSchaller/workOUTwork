@@ -8,23 +8,57 @@ using System.Windows.Forms;
 
 namespace wow
 {
-    class NoBreakWarner : IObserver
+    public class NoBreakWarner : IObserver
     {
+        public enum BreakRequestUserResponse{ ACCEPT, SNOOZE, DISMISS};
         private Timer noBreakTimer = new Timer();
+
+        private string MinutesNoBreakWarningString = "MinutesNoBreakWarning";
+        private string MinutesSnoozeTimeString = "MinutesSnoozeTime";
+
+        private int millisecondsNoBreakWarning;
+        private int millisecondsSnoozeTime;
 
         public NoBreakWarner()
         {
             Configuration config = new Configuration();
-            config.addConfigEntry("MinutesNoBreakWarning", 1);
-            noBreakTimer.Interval = new Configuration().getNoBreakWarningTimeMinutes() * 60 * 1000;
+            config.addConfigEntry(MinutesNoBreakWarningString, 1);
+            config.addConfigEntry(MinutesSnoozeTimeString, 1);
+            millisecondsNoBreakWarning = Int32.Parse(new Configuration().getValueString(MinutesNoBreakWarningString)) * 60 * 1000;
+            millisecondsSnoozeTime = Int32.Parse(new Configuration().getValueString(MinutesSnoozeTimeString)) * 60 * 1000;
+            noBreakTimer.Interval = millisecondsNoBreakWarning;
             TopicBroker.subscribeTopic("ACTIVITY_STATE_CHANGE_EVENT", this);
             noBreakTimer.Tick += NoBreakTimer_Tick;
         }
 
+
+
         private void NoBreakTimer_Tick(object sender, EventArgs e)
         {
             NoBreakWarningForm noBreakWarningForm = new NoBreakWarningForm();
+            noBreakWarningForm.FormClosed += NoBreakWarningForm_FormClosed;
             noBreakWarningForm.Show();
+
+        }
+
+        private void NoBreakWarningForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            BreakRequestUserResponse response = ((NoBreakWarningForm)sender).Response;
+            switch (response)
+            {
+                case BreakRequestUserResponse.ACCEPT:
+                    break;
+                case BreakRequestUserResponse.SNOOZE:
+                    noBreakTimer.Stop();
+                    noBreakTimer.Interval = millisecondsSnoozeTime;
+                    noBreakTimer.Start();
+                    break;
+                case BreakRequestUserResponse.DISMISS:
+                    noBreakTimer.Stop();
+                    noBreakTimer.Interval = millisecondsNoBreakWarning;
+                    noBreakTimer.Start();
+                    break;
+            }
         }
 
         public void Update(ISubject subject)

@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace wow
 {
     public partial class NoBreakWarningForm : Form
     {
+        private NoBreakWarner.BreakRequestUserResponse response;
+
+        public NoBreakWarner.BreakRequestUserResponse Response 
+        {
+            get { return response; }
+        }
+
         public NoBreakWarningForm()
         {
             InitializeComponent();
@@ -27,6 +27,24 @@ namespace wow
                 label1.Text = "You didnt have a break for " + hours + " hours and "+ minutes + " minutes";
             }
             
+        }
+
+        private void buttonDoBreak_Click(object sender, EventArgs e)
+        {
+            response = NoBreakWarner.BreakRequestUserResponse.ACCEPT;
+            this.Close();
+        }
+
+        private void buttonZnoze_Click(object sender, EventArgs e)
+        {
+            response = NoBreakWarner.BreakRequestUserResponse.SNOOZE;
+            this.Close();
+        }
+
+        private void buttonDismiss_Click(object sender, EventArgs e)
+        {
+            response = NoBreakWarner.BreakRequestUserResponse.DISMISS;
+            this.Close();
         }
     }
 }
