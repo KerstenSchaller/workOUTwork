@@ -36,17 +36,10 @@ namespace wow
 
         public void Notify()
         {
-            bool success = false;
-            while (success == false)
-                try
-                {
-                    foreach (var observer in _observers)
-                    {
-                        observer.Update(this);
-                    }
-                    success = true;
-                }
-                catch { }
+            foreach (var observer in _observers.ToArray())// toArry causes the list to be copied, avoiding changing the list during the loop
+            {
+                observer.Update(this);
+            }
         }
 
     }
