@@ -68,6 +68,7 @@ namespace wow
                 {
                     breakStarted = false;
                 }
+                systemStateHandler.Detach(this);
             }
         }
     }

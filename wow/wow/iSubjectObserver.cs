@@ -56,14 +56,14 @@ namespace wow
         private static SortedDictionary<string, ISubject> subjectMap = new SortedDictionary<string, ISubject>();
         private static List<TopicObserver> observerWaitList = new List<TopicObserver>();
 
-        public static void publishTopic(string topic, ISubject subject) 
+        public static void publishTopic(string topic, ISubject subject)
         {
             subjectMap.Add(topic, subject);
 
-        //go through waitlist and see if theres an observer waiting for the topic
-            foreach (TopicObserver topicObserver in observerWaitList) 
+            //go through waitlist and see if theres an observer waiting for the topic
+            foreach (TopicObserver topicObserver in observerWaitList)
             {
-                if( topicObserver.topic == topic) 
+                if (topicObserver.topic == topic)
                 {
                     subject.Attach(topicObserver.observer);
                 }
