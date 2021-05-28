@@ -36,10 +36,17 @@ namespace wow
 
         public void Notify()
         {
-            foreach (var observer in _observers)
-            {
-                observer.Update(this);
-            }
+            bool success = false;
+            while (success == false)
+                try
+                {
+                    foreach (var observer in _observers)
+                    {
+                        observer.Update(this);
+                    }
+                    success = true;
+                }
+                catch { }
         }
 
     }

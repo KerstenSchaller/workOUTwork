@@ -28,6 +28,7 @@ namespace wow
             millisecondsSnoozeTime = Int32.Parse(new Configuration().getValueString(MinutesSnoozeTimeString)) * 60 * 1000;
             noBreakTimer.Interval = millisecondsNoBreakWarning;
             TopicBroker.subscribeTopic("ACTIVITY_STATE_CHANGE_EVENT", this);
+            TopicBroker.subscribeTopic("SYSTEM_STATE_EVENT", this);
             noBreakTimer.Tick += NoBreakTimer_Tick;
         }
 
@@ -44,8 +45,7 @@ namespace wow
             switch (response)
             {
                 case BreakRequestUserResponse.ACCEPT:
-                    UserBreak ubreak = new UserBreak();
-                    ubreak.startBreak();
+                    new UserBreak().startBreak();
                     break;
                 case BreakRequestUserResponse.SNOOZE:
                     noBreakTimer.Stop();
@@ -75,7 +75,19 @@ namespace wow
                         noBreakTimer.Stop();
                         break;
                 }
+
+                if (subject is SystemStateHandler systemStateHandler) 
+                {
+                    switch (systemStateHandler.StateTranstition) 
+                    {
+                        case SystemStateHandler.state_transtition_t.TO_INACTIVE:
+                            new UserBreak().startBreak();
+                            break;
+                    }
+                }
             }
+
+
         }
 
 

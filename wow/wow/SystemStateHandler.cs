@@ -24,6 +24,7 @@ namespace wow
             {
                 case SessionSwitchReason.SessionLock:
                 case SessionSwitchReason.SessionLogoff:
+                    new UserBreak().startBreak();
                     stateTranstition = state_transtition_t.TO_INACTIVE;
                     break;
                 case SessionSwitchReason.SessionLogon:
