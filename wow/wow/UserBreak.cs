@@ -40,7 +40,7 @@ namespace wow
                 updateTimer.Tick += UpdateTimer_Tick;
                 updateTimer.Start();
                 stopwatch.Start();
-                await individualLockScreen.setInformationtalLockscreen();
+                individualLockScreen.setInformationtalLockscreen();
                 LockWorkStation();
             }
         }

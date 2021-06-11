@@ -86,7 +86,7 @@ namespace wow
 
             Graphics g = Graphics.FromImage(backImg);
             var resizedfrontImage = ResizeImage(frontImage, width, height);
-            g.DrawImage(frontImage, xpos, ypos);
+            g.DrawImage(resizedfrontImage, xpos, ypos);
             return backImg;
         }
 

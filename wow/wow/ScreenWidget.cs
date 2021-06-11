@@ -51,21 +51,26 @@ namespace wow
         int yPos = 0;
         int xSize = 500;
 
+        Configuration config = new Configuration();
+
         string xPosString = "dilbert_Widget_X_Position";
         string yPosString = "dilbert_Widget_Y_Position";
         string xSizeString = "dilbert_Widget_X_Size";
 
         public DilbertWidget()
         {
-            new Configuration().addConfigEntry(xPosString, 50);
-            new Configuration().addConfigEntry(yPosString, 50);
-            new Configuration().addConfigEntry(xSizeString, 1);
-            xPos = Int32.Parse(new Configuration().getValueString(xPosString));
-            yPos = Int32.Parse(new Configuration().getValueString(yPosString));
-            xSize = Int32.Parse(new Configuration().getValueString(xSizeString));
+            config.addConfigEntry(xPosString, 50);
+            config.addConfigEntry(yPosString, 50);
+            config.addConfigEntry(xSizeString, 1);
+            xPos = Int32.Parse(config.getValueString(xPosString));
+            yPos = Int32.Parse(config.getValueString(yPosString));
+            xSize = Int32.Parse(config.getValueString(xSizeString));
         }
         public Image addSelfToBackground(Image image)
         {
+            xPos = Int32.Parse(config.getValueString(xPosString));
+            yPos = Int32.Parse(config.getValueString(yPosString));
+            xSize = Int32.Parse(config.getValueString(xSizeString));
             return addDilbertComic(image);
         }
 

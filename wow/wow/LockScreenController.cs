@@ -10,11 +10,12 @@ namespace wow
 {
     class LockScreenController
     {
+        private LockScreenController() 
+        {
+        }
+
         private static LockScreenController instance = null;
         private static readonly object padlock = new object();
-
-        private LockScreenController() { }
-
         public static LockScreenController Instance
         {
             get
@@ -39,11 +40,22 @@ namespace wow
             await LockScreen.SetImageFileAsync(imageFile);
         }
 
+        private async Task setBackground(Color color)
+        {
+
+            Image img = ScreenImageComposer.Instance.getScreenImage();
+            string filename = "tempLockScreen.jpg";
+            new Bitmap(ScreenImageComposer.Instance.getBackgroundImage(color)).Save(filename);
+            await setLockScreen(filename);
+            File.Delete(filename);
+
+        }
+
         public async Task setInformationtalLockscreen()
         {
 
             Image img = ScreenImageComposer.Instance.getScreenImage();
-            string filename = "tempLockScreen2.jpg";
+            string filename = "tempLockScreen.jpg";
             new Bitmap(img).Save(filename);
             await setLockScreen(filename);
             File.Delete(filename);
