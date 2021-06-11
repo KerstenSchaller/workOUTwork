@@ -86,5 +86,10 @@ namespace wow
             activityWatcher.Detach(debugInformationForm);
             activeStateLog.Detach(debugInformationForm);
         }
+
+        private void NotifyIcon_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+        }
     }
 }

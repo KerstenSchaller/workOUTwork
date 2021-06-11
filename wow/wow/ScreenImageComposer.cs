@@ -83,7 +83,6 @@ namespace wow
 
         public static Image embeddImage(Image backImg, Image frontImage,int xpos, int ypos, int width, int height) 
         {
-
             Graphics g = Graphics.FromImage(backImg);
             var resizedfrontImage = ResizeImage(frontImage, width, height);
             g.DrawImage(resizedfrontImage, xpos, ypos);

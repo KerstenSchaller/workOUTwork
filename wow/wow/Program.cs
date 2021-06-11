@@ -6,7 +6,7 @@ namespace wow
 {
     static class Program 
     {
-
+        static NotifyIcon notifyIcon;
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
         /// </summary>
@@ -15,8 +15,18 @@ namespace wow
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new NotifyIcon());
+            notifyIcon = new NotifyIcon();
+            AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
+            Application.Run(notifyIcon);
+
+ 
         }
 
+        private static void OnProcessExit(object sender, EventArgs e)
+        {
+            notifyIcon.Icon = null;
+            notifyIcon.Visible = false;
+            notifyIcon.Dispose();
+        }
     }
 }

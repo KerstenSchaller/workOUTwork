@@ -44,6 +44,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Name = "NotifyIcon";
             this.Text = "NotifyIcon";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NotifyIcon_FormClosing);
             this.ResumeLayout(false);
 
         }
