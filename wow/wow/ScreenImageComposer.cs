@@ -27,15 +27,8 @@ namespace wow
             }
         }
 
-        public Image createScreenImageWithText(int xpos, int ypos, String text, Color textColor, Color backColor, string filename = "")
+        public Image getBackgroundImage(Color color) 
         {
-            FontFamily fontFamily = new FontFamily("Arial");
-            Font font = new Font(
-               fontFamily,
-               40,
-               FontStyle.Regular,
-               GraphicsUnit.Pixel);
-
             //first, create a dummy bitmap just to get a graphics object
             Image img = new Bitmap(1, 1);
             Graphics drawing = Graphics.FromImage(img);
@@ -50,14 +43,28 @@ namespace wow
             drawing = Graphics.FromImage(img);
 
             //paint the background
-            drawing.Clear(backColor);
+            drawing.Clear(color);
+            drawing.Save();
+            drawing.Dispose();
+
+            return img;
+        }
+
+        public Image createScreenImageWithText(int xpos, int ypos, String text, Color textColor, Color backColor, string filename = "")
+        {
+            FontFamily fontFamily = new FontFamily("Arial");
+            Font font = new Font(
+               fontFamily,
+               40,
+               FontStyle.Regular,
+               GraphicsUnit.Pixel);
 
             //create a brush for the text
             Brush textBrush = new SolidBrush(textColor);
+            var img = getBackgroundImage(Color.Black);
 
+            Graphics drawing = Graphics.FromImage(img);
             drawing.DrawString(text, font, textBrush, xpos, ypos);
-
-            drawing.Save();
 
             textBrush.Dispose();
             drawing.Dispose();
