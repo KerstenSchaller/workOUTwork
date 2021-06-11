@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace wow
@@ -83,6 +79,7 @@ namespace wow
             }
             return img;
         }
+
 
         public static Image embeddImage(Image backImg, Image frontImage,int xpos, int ypos, int width, int height) 
         {

@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 
 using Windows.Storage;
 using Windows.System.UserProfile;
-using System.Windows.Forms;
 using System.Drawing;
 
 namespace wow
