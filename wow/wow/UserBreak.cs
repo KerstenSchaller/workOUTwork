@@ -13,7 +13,7 @@ namespace wow
         [DllImport("user32.dll")]
         private static extern bool LockWorkStation();
 
-        private IndividualLockScreen individualLockScreen = IndividualLockScreen.Instance;
+        private LockScreenController individualLockScreen = LockScreenController.Instance;
         private Timer updateTimer = new Timer();
         private Stopwatch stopwatch = new Stopwatch();
         private static bool breakStarted = false;
@@ -21,9 +21,11 @@ namespace wow
 
         private string MinutesMinimumBreakTimeString = "MinutesMinimumBreakTime";
         private int millisecondsMinimumBreakTime;
+        private TextWidget textWidget = new TextWidget();
 
         public UserBreak()
         {
+            ScreenImageComposer.Instance.attachWidget(textWidget);
             if (subscribedToSystemStateHandler == false)
             {
                 TopicBroker.subscribeTopic("SYSTEM_STATE_EVENT", this);
@@ -41,7 +43,7 @@ namespace wow
                 updateTimer.Tick += UpdateTimer_Tick;
                 updateTimer.Start();
                 stopwatch.Start();
-                await individualLockScreen.setInformationtalLockscreen("", System.Drawing.Color.DarkRed);
+                await individualLockScreen.setInformationtalLockscreen();
                 LockWorkStation();
             }
         }
@@ -49,13 +51,16 @@ namespace wow
         private  void UpdateTimer_Tick(object sender, EventArgs e)
         {
             var elapsedTime = stopwatch.Elapsed;
+            textWidget.Text = elapsedTime.ToString();
             if (elapsedTime <= new TimeSpan(0,0,0,0, millisecondsMinimumBreakTime)) 
             {
-                individualLockScreen.setInformationtalLockscreen(elapsedTime.ToString(), System.Drawing.Color.DarkRed);
+                textWidget.Textcolor = System.Drawing.Color.DarkRed;
+                individualLockScreen.setInformationtalLockscreen();
             }
             else
             {
-                individualLockScreen.setInformationtalLockscreen(elapsedTime.ToString(), System.Drawing.Color.Green);
+                textWidget.Textcolor = System.Drawing.Color.Green;
+                individualLockScreen.setInformationtalLockscreen();
             }
             updateTimer.Start();
         }

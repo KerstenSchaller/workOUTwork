@@ -27,6 +27,9 @@ namespace wow
         DebugInformationForm debugInformationForm;
         ConfigForm configurationForm;
 
+        /*Independent Screen widgets*/
+        DilbertWidget dilbertWidget = new DilbertWidget();
+
         public NotifyIcon()
         {
             InitializeComponent();
@@ -52,6 +55,8 @@ namespace wow
             notifyIconWOW.Visible = true;
 
             notifyIconWOW.Icon = new Configuration().getApplicationIcon();
+
+            ScreenImageComposer.Instance.attachWidget(dilbertWidget);
 
             //start watching and loggig user activity changes
             activityWatcher.start();

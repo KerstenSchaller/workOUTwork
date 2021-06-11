@@ -15,7 +15,31 @@ namespace wow
         private Screen[] screens;
         private Screen PrimaryScreen;
 
-        public ScreenImageComposer() 
+        private List<IScreenWidget> widgets = new List<IScreenWidget>();
+
+        private static ScreenImageComposer instance = null;
+        private static readonly object padlock = new object();
+        public static ScreenImageComposer Instance
+        {
+            get
+            {
+                lock (padlock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new ScreenImageComposer();
+                    }
+                    return instance;
+                }
+            }
+        }
+
+        public void attachWidget(IScreenWidget widget) 
+        {
+            widgets.Add(widget);
+        }
+
+        private ScreenImageComposer() 
         {
             screens = Screen.AllScreens;
             foreach (Screen screen in screens) 
@@ -50,49 +74,17 @@ namespace wow
             return img;
         }
 
-        public Image createScreenImageWithText(int xpos, int ypos, String text, Color textColor, Color backColor, string filename = "")
+        public Image getScreenImage() 
         {
-            FontFamily fontFamily = new FontFamily("Arial");
-            Font font = new Font(
-               fontFamily,
-               40,
-               FontStyle.Regular,
-               GraphicsUnit.Pixel);
-
-            //create a brush for the text
-            Brush textBrush = new SolidBrush(textColor);
             var img = getBackgroundImage(Color.Black);
-
-            Graphics drawing = Graphics.FromImage(img);
-            drawing.DrawString(text, font, textBrush, xpos, ypos);
-
-            textBrush.Dispose();
-            drawing.Dispose();
-
-            Image dilbertImage = addDilbertComic(img);
-
-            if (filename != "") 
-            { 
-                new Bitmap(dilbertImage).Save(filename);
+            foreach (IScreenWidget widget in widgets) 
+            {
+                img = widget.addSelfToBackground(img);
             }
             return img;
         }
 
-        public Image addDilbertComic(Image backgroundImage) 
-        {
-            DilbertComicDownloader dilbertComicDownloader = new DilbertComicDownloader();
-            var dilbertComic = dilbertComicDownloader.getDilbertComicImageByDate(DateTime.Now.Date);
-
-            int w = dilbertComic.Width;
-            int h = dilbertComic.Height;
-            float m = 500f/w;
-            int newHeight = (int)(h * m);
-
-            Image embeddedImage = embeddImage(backgroundImage, dilbertComic, 50,50,500, newHeight);
-            return embeddedImage;
-        }
-
-        public Image embeddImage(Image backImg, Image frontImage,int xpos, int ypos, int width, int height) 
+        public static Image embeddImage(Image backImg, Image frontImage,int xpos, int ypos, int width, int height) 
         {
 
             Graphics g = Graphics.FromImage(backImg);

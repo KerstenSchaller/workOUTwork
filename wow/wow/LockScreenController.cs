@@ -9,14 +9,14 @@ using System.Drawing;
 
 namespace wow
 {
-    class IndividualLockScreen
+    class LockScreenController
     {
-        private static IndividualLockScreen instance = null;
+        private static LockScreenController instance = null;
         private static readonly object padlock = new object();
 
-        private IndividualLockScreen() { }
+        private LockScreenController() { }
 
-        public static IndividualLockScreen Instance
+        public static LockScreenController Instance
         {
             get
             {
@@ -24,7 +24,7 @@ namespace wow
                 {
                     if (instance == null)
                     {
-                        instance = new IndividualLockScreen();
+                        instance = new LockScreenController();
                     }
                     return instance;
                 }
@@ -40,11 +40,13 @@ namespace wow
             await LockScreen.SetImageFileAsync(imageFile);
         }
 
-        public async Task setInformationtalLockscreen(string text, Color textColor)
+        public async Task setInformationtalLockscreen()
         {
-            ScreenImageComposer screenImageComposer = new ScreenImageComposer();
-            screenImageComposer.createScreenImageWithText(0, 0, text, textColor, Color.Black, "tempLockScreen2.jpg");
-            await setLockScreen("tempLockScreen2.jpg");
+
+            Image img = ScreenImageComposer.Instance.getScreenImage();
+            string filename = "tempLockScreen2.jpg";
+            new Bitmap(img).Save(filename);
+            await setLockScreen(filename);
             
         }
 
