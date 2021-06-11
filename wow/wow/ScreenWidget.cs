@@ -47,6 +47,23 @@ namespace wow
 
     class DilbertWidget : IScreenWidget
     {
+        int xPos = 0;
+        int yPos = 0;
+        int xSize = 500;
+
+        string xPosString = "dilbert_Widget_X_Position";
+        string yPosString = "dilbert_Widget_Y_Position";
+        string xSizeString = "dilbert_Widget_X_Size";
+
+        public DilbertWidget()
+        {
+            new Configuration().addConfigEntry(xPosString, 50);
+            new Configuration().addConfigEntry(yPosString, 50);
+            new Configuration().addConfigEntry(xSizeString, 1);
+            xPos = Int32.Parse(new Configuration().getValueString(xPosString));
+            yPos = Int32.Parse(new Configuration().getValueString(yPosString));
+            xSize = Int32.Parse(new Configuration().getValueString(xSizeString));
+        }
         public Image addSelfToBackground(Image image)
         {
             return addDilbertComic(image);
@@ -57,12 +74,12 @@ namespace wow
             DilbertComicDownloader dilbertComicDownloader = new DilbertComicDownloader();
             var dilbertComic = dilbertComicDownloader.getDilbertComicImageByDate(DateTime.Now.Date);
 
-            int w = dilbertComic.Width;
-            int h = dilbertComic.Height;
-            float m = 500f / w;
-            int newHeight = (int)(h * m);
+            float width = (float)dilbertComic.Width;
+            float height = (float)dilbertComic.Height;
+            float ratio = xSize / width;
+            int newHeight = (int)(height * ratio);
 
-            Image embeddedImage = ScreenImageComposer.embeddImage(backgroundImage, dilbertComic, 50, 50, 500, newHeight);
+            Image embeddedImage = ScreenImageComposer.embeddImage(backgroundImage, dilbertComic, xPos, yPos, xSize, newHeight);
             return embeddedImage;
         }
     }
