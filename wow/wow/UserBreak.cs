@@ -34,13 +34,13 @@ namespace wow
         {
             if (!breakStarted)
             {
-                new Configuration().addConfigEntry(MinutesMinimumBreakTimeString, 1);
-                millisecondsMinimumBreakTime = Int32.Parse(new Configuration().getValueString(MinutesMinimumBreakTimeString)) * 60 * 1000;
+                Configuration.addConfigEntry(MinutesMinimumBreakTimeString, 1);
+                millisecondsMinimumBreakTime = Int32.Parse(Configuration.getValueString(MinutesMinimumBreakTimeString)) * 60 * 1000;
                 updateTimer.Interval = 5 * 1000;
                 updateTimer.Tick += UpdateTimer_Tick;
                 updateTimer.Start();
                 stopwatch.Start();
-                individualLockScreen.setInformationtalLockscreen();
+                await individualLockScreen.setInformationtalLockscreen();
                 LockWorkStation();
             }
         }

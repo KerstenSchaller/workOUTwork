@@ -15,15 +15,14 @@ namespace wow
         public NoBreakWarningForm()
         {
             InitializeComponent();
-            Configuration configuration = new Configuration();
-            if (configuration.getNoBreakWarningTimeMinutes() > 60)
+            if (Configuration.getNoBreakWarningTimeMinutes() > 60)
             {
-                label1.Text = "You didnt have a break for " + configuration.getNoBreakWarningTimeMinutes() + " minutes";
+                label1.Text = "You didnt have a break for " + Configuration.getNoBreakWarningTimeMinutes() + " minutes";
             }
             else
             {
-                int hours = (int)(configuration.getNoBreakWarningTimeMinutes() / 60);
-                int minutes = configuration.getNoBreakWarningTimeMinutes() - hours * 60;
+                int hours = (int)(Configuration.getNoBreakWarningTimeMinutes() / 60);
+                int minutes = Configuration.getNoBreakWarningTimeMinutes() - hours * 60;
                 label1.Text = "You didnt have a break for " + hours + " hours and "+ minutes + " minutes";
             }
             

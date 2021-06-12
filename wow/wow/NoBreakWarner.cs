@@ -16,11 +16,10 @@ namespace wow
 
         public NoBreakWarner()
         {
-            Configuration config = new Configuration();
-            config.addConfigEntry(MinutesNoBreakWarningString, 1);
-            config.addConfigEntry(MinutesSnoozeTimeString, 1);
-            millisecondsNoBreakWarning = Int32.Parse(new Configuration().getValueString(MinutesNoBreakWarningString)) * 60 * 1000;
-            millisecondsSnoozeTime = Int32.Parse(new Configuration().getValueString(MinutesSnoozeTimeString)) * 60 * 1000;
+            Configuration.addConfigEntry(MinutesNoBreakWarningString, 1);
+            Configuration.addConfigEntry(MinutesSnoozeTimeString, 1);
+            millisecondsNoBreakWarning = Int32.Parse(Configuration.getValueString(MinutesNoBreakWarningString)) * 60 * 1000;
+            millisecondsSnoozeTime = Int32.Parse(Configuration.getValueString(MinutesSnoozeTimeString)) * 60 * 1000;
             noBreakTimer.Interval = millisecondsNoBreakWarning;
             TopicBroker.subscribeTopic("ACTIVITY_STATE_CHANGE_EVENT", this);
             TopicBroker.subscribeTopic("SYSTEM_STATE_EVENT", this);

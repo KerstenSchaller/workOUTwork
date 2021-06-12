@@ -6,11 +6,10 @@ namespace wow
 {
     public partial class ConfigForm : Form
     {
-        Configuration config = new Configuration();
         public ConfigForm()
         {
             InitializeComponent();
-            this.Icon = new Configuration().getApplicationIcon();
+            this.Icon = Configuration.getApplicationIcon();
             listView1.View = View.Details;
             listView1.LabelEdit = true;
             listView1.MultiSelect = false;
@@ -30,7 +29,7 @@ namespace wow
             listView1.Clear();
             listView1.Columns.Add("ConfigurationName", 200);
             listView1.Columns.Add("Value", 100);
-            var dict = config.getAllEntrys();
+            var dict = Configuration.getAllEntrys();
             foreach (KeyValuePair<string, string> kv in dict) 
             {
                 addRow(kv.Key, kv.Value);
@@ -44,8 +43,7 @@ namespace wow
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Configuration config = new Configuration();
-            var dict = config.getAllEntrys();
+            var dict = Configuration.getAllEntrys();
             try
             {
                 int selectedIndex = listView1.SelectedIndices[0];

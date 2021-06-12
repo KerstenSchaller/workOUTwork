@@ -11,9 +11,8 @@ namespace wow
         public DebugInformationForm()
         {
             InitializeComponent();
-            this.Icon = new Configuration().getApplicationIcon();
-            Configuration config = new Configuration();
-            this.Text = config.ApplicationName + " - " + "Debug Information"; //set window title
+            this.Icon = Configuration.getApplicationIcon();
+            this.Text = Configuration.ApplicationName + " - " + "Debug Information"; //set window title
         }
 
         public void Update(ISubject subject)
@@ -55,8 +54,7 @@ namespace wow
 
         private void buttonOpenDataFolder_Click(object sender, EventArgs e)
         {
-            Configuration config = new Configuration();
-            string path = config.getDataBasePath();
+            string path = Configuration.getDataBasePath();
             Process.Start(path);
         }
 

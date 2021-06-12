@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace wow
@@ -45,32 +46,21 @@ namespace wow
         }
     }
 
-    class DilbertWidget : IScreenWidget
+    class DilbertWidget : Configurable , IScreenWidget
     {
-        int xPos = 0;
-        int yPos = 0;
-        int xSize = 500;
+        ConfigIntParameter xPosParam = new ConfigIntParameter("dilbert_Widget_X_Position", 50);
+        ConfigIntParameter yPosParam = new ConfigIntParameter("dilbert_Widget_Y_Position", 50);
+        ConfigIntParameter xSizeParam = new ConfigIntParameter("dilbert_Widget_X_Size", 1000);
 
-        Configuration config = new Configuration();
-
-        string xPosString = "dilbert_Widget_X_Position";
-        string yPosString = "dilbert_Widget_Y_Position";
-        string xSizeString = "dilbert_Widget_X_Size";
-
-        public DilbertWidget()
-        {
-            config.addConfigEntry(xPosString, 50);
-            config.addConfigEntry(yPosString, 50);
-            config.addConfigEntry(xSizeString, 1);
-            xPos = Int32.Parse(config.getValueString(xPosString));
-            yPos = Int32.Parse(config.getValueString(yPosString));
-            xSize = Int32.Parse(config.getValueString(xSizeString));
+        public DilbertWidget() : base("DilbertWidget")
+        {         
+            base.parameters.Add(xPosParam);
+            base.parameters.Add(yPosParam);
+            base.parameters.Add(xSizeParam);
+            this.setParameters(parameters);
         }
         public Image addSelfToBackground(Image image)
         {
-            xPos = Int32.Parse(config.getValueString(xPosString));
-            yPos = Int32.Parse(config.getValueString(yPosString));
-            xSize = Int32.Parse(config.getValueString(xSizeString));
             return addDilbertComic(image);
         }
 
@@ -81,12 +71,13 @@ namespace wow
 
             float width = (float)dilbertComic.Width;
             float height = (float)dilbertComic.Height;
-            float ratio = xSize / width;
+            float ratio = xSizeParam.getValue() / width;
             int newHeight = (int)(height * ratio);
-
-            Image embeddedImage = ScreenImageComposer.embeddImage(backgroundImage, dilbertComic, xPos, yPos, xSize, newHeight);
+            Image embeddedImage = ScreenImageComposer.embeddImage(backgroundImage, dilbertComic, xPosParam.getValue(), yPosParam.getValue(), xSizeParam.getValue(), newHeight);
             return embeddedImage;
         }
+
+
     }
 
 

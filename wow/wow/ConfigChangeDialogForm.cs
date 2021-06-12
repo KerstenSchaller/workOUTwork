@@ -16,7 +16,7 @@ namespace wow
         public ConfigChangeDialogForm(string _key, string _value)
         {
             InitializeComponent();
-            this.Icon = new Configuration().getApplicationIcon();
+            this.Icon = Configuration.getApplicationIcon();
             key = _key;
             label1.Text = key;
             textBox_value.Text = _value;
@@ -24,8 +24,7 @@ namespace wow
 
         private void button_save_Click(object sender, EventArgs e)
         {
-            Configuration config = new Configuration();
-            config.changeConfig(key, textBox_value.Text);
+            Configuration.changeConfig(key, textBox_value.Text);
             this.Close();
         }
 

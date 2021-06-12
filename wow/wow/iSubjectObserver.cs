@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace wow
 {
@@ -45,7 +46,7 @@ namespace wow
     }
 
 
-    public static class TopicBroker 
+    public static class TopicBroker
     {
         private struct TopicObserver
         {
@@ -70,7 +71,7 @@ namespace wow
             }
         }
 
-        public static void subscribeTopic(string topic, IObserver observer) 
+        public static void subscribeTopic(string topic, IObserver observer)
         {
             if (subjectMap.ContainsKey(topic))
             {
@@ -84,7 +85,9 @@ namespace wow
                 topicObserver.observer = observer;
                 observerWaitList.Add(topicObserver);
             }
+
         }
+
 
     }
 

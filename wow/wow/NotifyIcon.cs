@@ -47,7 +47,7 @@ namespace wow
             notifyIconWOW.ContextMenu = contextmenu;
             notifyIconWOW.Visible = true;
 
-            notifyIconWOW.Icon = new Configuration().getApplicationIcon();
+            notifyIconWOW.Icon = Configuration.getApplicationIcon();
 
             ScreenImageComposer.Instance.attachWidget(dilbertWidget);
 
