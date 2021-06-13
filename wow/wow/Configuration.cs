@@ -63,20 +63,7 @@ namespace wow
             }
         }
 
-        public static string getValueString(string key) 
-        {
-            using (PersistentDictionary<string, string> dictionary = new PersistentDictionary<string, string>(getConfigLogPath()))
-            {
-                if (dictionary.ContainsKey(key))
-                {
-                    return dictionary[key];
-                }
-                else 
-                {
-                    return "";
-                }
-            }
-        }
+ 
         private static void addConfigEntry(string key, int configEntryValue)
         {
             addConfigEntry(key, Convert.ToString(configEntryValue));
@@ -84,6 +71,21 @@ namespace wow
         private static void addConfigEntry(string key, float configEntryValue)
         {
             addConfigEntry(key, Convert.ToString(configEntryValue));
+        }
+
+        public static string getValueString(string key)
+        {
+            using (PersistentDictionary<string, string> dictionary = new PersistentDictionary<string, string>(getConfigLogPath()))
+            {
+                if (dictionary.ContainsKey(key))
+                {
+                    return dictionary[key];
+                }
+                else
+                {
+                    return "";
+                }
+            }
         }
 
         public static Dictionary<string, string> getAllEntrys()

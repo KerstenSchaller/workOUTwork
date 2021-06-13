@@ -88,5 +88,16 @@ namespace wow
             }
             catch { }
         }
+
+        private void buttonEditWidget_Click(object sender, EventArgs e)
+        {
+           var confobject = Configuration.getConfigObjectbyID(listBoxConfigObjects.SelectedItem.ToString());
+            if (confobject.ID.Contains("Widget")) 
+            {
+                WidgetSizeConfigForm widgetConfigForm = new WidgetSizeConfigForm(confobject);
+                widgetConfigForm.FormClosed += ConfigChangeDialogFormClosedHandler;
+                widgetConfigForm.Show();
+            }
+        }
     }
 }

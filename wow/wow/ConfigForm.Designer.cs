@@ -32,6 +32,7 @@ namespace wow
             this.listViewParameters = new System.Windows.Forms.ListView();
             this.button_editParameter = new System.Windows.Forms.Button();
             this.listBoxConfigObjects = new System.Windows.Forms.ListBox();
+            this.buttonEditWidget = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // listViewParameters
@@ -62,11 +63,22 @@ namespace wow
             this.listBoxConfigObjects.TabIndex = 2;
             this.listBoxConfigObjects.SelectedIndexChanged += new System.EventHandler(this.listBoxConfigObjects_SelectedIndexChanged);
             // 
+            // buttonEditWidget
+            // 
+            this.buttonEditWidget.Location = new System.Drawing.Point(12, 274);
+            this.buttonEditWidget.Name = "buttonEditWidget";
+            this.buttonEditWidget.Size = new System.Drawing.Size(115, 23);
+            this.buttonEditWidget.TabIndex = 3;
+            this.buttonEditWidget.Text = "Edit Widget";
+            this.buttonEditWidget.UseVisualStyleBackColor = true;
+            this.buttonEditWidget.Click += new System.EventHandler(this.buttonEditWidget_Click);
+            // 
             // ConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(453, 309);
+            this.ClientSize = new System.Drawing.Size(453, 308);
+            this.Controls.Add(this.buttonEditWidget);
             this.Controls.Add(this.listBoxConfigObjects);
             this.Controls.Add(this.button_editParameter);
             this.Controls.Add(this.listViewParameters);
@@ -81,5 +93,6 @@ namespace wow
         private System.Windows.Forms.ListView listViewParameters;
         private System.Windows.Forms.Button button_editParameter;
         private System.Windows.Forms.ListBox listBoxConfigObjects;
+        private System.Windows.Forms.Button buttonEditWidget;
     }
 }

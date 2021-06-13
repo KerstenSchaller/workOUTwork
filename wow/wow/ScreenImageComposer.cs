@@ -11,7 +11,7 @@ namespace wow
         private Screen[] screens;
         private Screen PrimaryScreen;
 
-        private List<IScreenWidget> widgets = new List<IScreenWidget>();
+        private List<ScreenWidget> widgets = new List<ScreenWidget>();
 
         private static ScreenImageComposer instance = null;
         private static readonly object padlock = new object();
@@ -30,7 +30,7 @@ namespace wow
             }
         }
 
-        public void attachWidget(IScreenWidget widget) 
+        public void attachWidget(ScreenWidget widget) 
         {
             widgets.Add(widget);
         }
@@ -73,7 +73,7 @@ namespace wow
         public Image getScreenImage() 
         {
             var img = getBackgroundImage(Color.Black);
-            foreach (IScreenWidget widget in widgets) 
+            foreach (ScreenWidget widget in widgets) 
             {
                 img = widget.addSelfToBackground(img);
             }
