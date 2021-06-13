@@ -29,36 +29,47 @@ namespace wow
         /// </summary>
         private void InitializeComponent()
         {
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.button1 = new System.Windows.Forms.Button();
+            this.listViewParameters = new System.Windows.Forms.ListView();
+            this.button_editParameter = new System.Windows.Forms.Button();
+            this.listBoxConfigObjects = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
-            // listView1
+            // listViewParameters
             // 
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(26, 12);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(438, 256);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listViewParameters.HideSelection = false;
+            this.listViewParameters.Location = new System.Drawing.Point(133, 12);
+            this.listViewParameters.Name = "listViewParameters";
+            this.listViewParameters.Size = new System.Drawing.Size(312, 251);
+            this.listViewParameters.TabIndex = 0;
+            this.listViewParameters.UseCompatibleStateImageBehavior = false;
             // 
-            // button1
+            // button_editParameter
             // 
-            this.button1.Location = new System.Drawing.Point(26, 274);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Edit";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button_editParameter.Location = new System.Drawing.Point(133, 274);
+            this.button_editParameter.Name = "button_editParameter";
+            this.button_editParameter.Size = new System.Drawing.Size(308, 23);
+            this.button_editParameter.TabIndex = 1;
+            this.button_editParameter.Text = "Edit Parameter";
+            this.button_editParameter.UseVisualStyleBackColor = true;
+            this.button_editParameter.Click += new System.EventHandler(this.button_editParameter_Click);
+            // 
+            // listBoxConfigObjects
+            // 
+            this.listBoxConfigObjects.FormattingEnabled = true;
+            this.listBoxConfigObjects.Location = new System.Drawing.Point(12, 12);
+            this.listBoxConfigObjects.Name = "listBoxConfigObjects";
+            this.listBoxConfigObjects.Size = new System.Drawing.Size(115, 251);
+            this.listBoxConfigObjects.TabIndex = 2;
+            this.listBoxConfigObjects.SelectedIndexChanged += new System.EventHandler(this.listBoxConfigObjects_SelectedIndexChanged);
             // 
             // ConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(515, 309);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.listView1);
+            this.ClientSize = new System.Drawing.Size(453, 309);
+            this.Controls.Add(this.listBoxConfigObjects);
+            this.Controls.Add(this.button_editParameter);
+            this.Controls.Add(this.listViewParameters);
             this.Name = "ConfigForm";
             this.Text = "ConfigForm";
             this.ResumeLayout(false);
@@ -67,7 +78,8 @@ namespace wow
 
         #endregion
 
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ListView listViewParameters;
+        private System.Windows.Forms.Button button_editParameter;
+        private System.Windows.Forms.ListBox listBoxConfigObjects;
     }
 }

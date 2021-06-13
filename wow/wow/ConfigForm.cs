@@ -10,13 +10,15 @@ namespace wow
         {
             InitializeComponent();
             this.Icon = Configuration.getApplicationIcon();
-            listView1.View = View.Details;
-            listView1.LabelEdit = true;
-            listView1.MultiSelect = false;
+            listViewParameters.View = View.Details;
+            listViewParameters.LabelEdit = true;
+            listViewParameters.MultiSelect = false;
 
-            listView1.SelectedIndexChanged += new EventHandler(listViewSelectionChangedEventHandler);
-            populate(); 
-      
+            listViewParameters.SelectedIndexChanged += new EventHandler(listViewSelectionChangedEventHandler);
+            populateListBox();
+            populateListView();
+
+
         }
 
         private void listViewSelectionChangedEventHandler(object sender, EventArgs e)
@@ -24,41 +26,68 @@ namespace wow
       
         }
 
-        private void populate() 
+        private void populateListView()
         {
-            listView1.Clear();
-            listView1.Columns.Add("ConfigurationName", 200);
-            listView1.Columns.Add("Value", 100);
-            var dict = Configuration.getAllEntrys();
-            foreach (KeyValuePair<string, string> kv in dict) 
+            var configObjects = Configuration.getConfigObjects();
+
+
+            int index = (listBoxConfigObjects.SelectedIndex == -1) ? 0 : listBoxConfigObjects.SelectedIndex;
+            Configurable configurable = Configuration.getConfigObjectbyID((string)listBoxConfigObjects.Items[index]);
+            listViewParameters.Clear();
+            listViewParameters.Columns.Add("ConfigurationName", 200);
+            listViewParameters.Columns.Add("Value", 100);
+            foreach (var parameter in configurable.getParameters())
             {
-                addRow(kv.Key, kv.Value);
+                addRow(parameter.getID(), parameter.getValue());
             }
+
+
+        }
+
+        private void populateListBox() 
+        {
+            listBoxConfigObjects.Items.Clear();
+            var configObjects = Configuration.getConfigObjects();
+
+
+            foreach (var confO in configObjects)
+            {
+                listBoxConfigObjects.Items.Add(confO.ID);
+            }
+
+            
         }
 
         private void addRow(string name, string value) 
         {
-            listView1.Items.Add(new ListViewItem(new string[] { name, value }));
+            listViewParameters.Items.Add(new ListViewItem(new string[] { name, value }));
         }
 
-        private void button1_Click(object sender, EventArgs e)
+  
+
+        private void ConfigChangeDialogFormClosedHandler(object sender, EventArgs e)
+        {
+            populateListView();
+        }
+
+        private void listBoxConfigObjects_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_editParameter_Click(object sender, EventArgs e)
         {
             var dict = Configuration.getAllEntrys();
             try
             {
-                int selectedIndex = listView1.SelectedIndices[0];
-                string key = listView1.Items[selectedIndex].SubItems[0].Text;
+                int selectedIndex = listViewParameters.SelectedIndices[0];
+                string key = listViewParameters.Items[selectedIndex].SubItems[0].Text;
 
                 ConfigChangeDialogForm configChanger = new ConfigChangeDialogForm(key, dict[key]);
                 configChanger.FormClosed += ConfigChangeDialogFormClosedHandler;
                 configChanger.Show();
             }
-            catch{ }
-        }
-
-        private void ConfigChangeDialogFormClosedHandler(object sender, EventArgs e)
-        {
-            populate();
+            catch { }
         }
     }
 }

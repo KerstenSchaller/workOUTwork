@@ -14,11 +14,27 @@ namespace wow
 
         static string dataBaseNameActiveStateLog = "activeStateLog";
 
-        static List<Configurable> configurableObjects = new List<Configurable>();
+        static Dictionary<string, Configurable> configurableObjects = new Dictionary<string, Configurable>();
+
+        public static List<Configurable> getConfigObjects() 
+        {
+            List<Configurable> list = new List<Configurable>();
+            foreach(var c in configurableObjects) 
+            {
+                list.Add(c.Value);
+            }
+            return list; 
+        }
+
+        public static Configurable getConfigObjectbyID(string ID) 
+        { 
+            
+            return configurableObjects[ID]; 
+        }
 
         public static void appendConfigurableObject(Configurable _configurableObject ) 
         {
-            configurableObjects.Add(_configurableObject);
+            configurableObjects.Add(_configurableObject.ID, _configurableObject);
             foreach(ConfigParameter param in _configurableObject.getParameters()) 
             {
                 string id = param.getID();
@@ -94,7 +110,7 @@ namespace wow
                 }
             }
 
-            foreach(Configurable conf in configurableObjects) 
+            foreach(Configurable conf in configurableObjects.Values) 
             {
                 foreach (ConfigParameter param in conf.getParameters()) 
                 {
@@ -254,6 +270,7 @@ namespace wow
 
         public override void setValue(string _value)
         {
+            base.value = _value;
             this.value = Int32.Parse(_value);
         }
 

@@ -52,7 +52,7 @@ namespace wow
         ConfigIntParameter yPosParam = new ConfigIntParameter("dilbert_Widget_Y_Position", 50);
         ConfigIntParameter xSizeParam = new ConfigIntParameter("dilbert_Widget_X_Size", 1000);
 
-        public DilbertWidget() : base("DilbertWidget")
+        public DilbertWidget() : base("xDilbertWidget")
         {         
             base.parameters.Add(xPosParam);
             base.parameters.Add(yPosParam);
@@ -69,11 +69,15 @@ namespace wow
             DilbertComicDownloader dilbertComicDownloader = new DilbertComicDownloader();
             var dilbertComic = dilbertComicDownloader.getDilbertComicImageByDate(DateTime.Now.Date);
 
+            int newWidth = xSizeParam.getValue();
             float width = (float)dilbertComic.Width;
             float height = (float)dilbertComic.Height;
-            float ratio = xSizeParam.getValue() / width;
-            int newHeight = (int)(height * ratio);
-            Image embeddedImage = ScreenImageComposer.embeddImage(backgroundImage, dilbertComic, xPosParam.getValue(), yPosParam.getValue(), xSizeParam.getValue(), newHeight);
+            //float ratio = xSizeParam.getValue() / width;
+            //int newHeight = (int)(height * ratio);
+
+            float ratio = height / width;
+            int newHeight = (int)(newWidth * ratio);
+            Image embeddedImage = ScreenImageComposer.embeddImage(backgroundImage, dilbertComic, xPosParam.getValue(), yPosParam.getValue(), newWidth, newHeight);
             return embeddedImage;
         }
 

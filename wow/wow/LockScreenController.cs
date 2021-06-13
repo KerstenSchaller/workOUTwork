@@ -58,7 +58,7 @@ namespace wow
             string filename = "tempLockScreen.jpg";
             new Bitmap(img).Save(filename);
             await setLockScreen(filename);
-            File.Delete(filename);
+            //File.Delete(filename);
             
         }
 
