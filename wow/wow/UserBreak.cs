@@ -10,6 +10,23 @@ namespace wow
         [DllImport("user32.dll")]
         private static extern bool LockWorkStation();
 
+        private static UserBreak instance = null;
+        private static readonly object padlock = new object();
+        public static UserBreak Instance
+        {
+            get
+            {
+                lock (padlock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new UserBreak();
+                    }
+                    return instance;
+                }
+            }
+        }
+
         private LockScreenController individualLockScreen = LockScreenController.Instance;
         private Timer updateTimer = new Timer();
         private Stopwatch stopwatch = new Stopwatch();
@@ -20,8 +37,9 @@ namespace wow
         private int millisecondsMinimumBreakTime;
         private TextWidget textWidget = new TextWidget();
 
-        public UserBreak()
+        private UserBreak()
         {
+            updateTimer.Tick += UpdateTimer_Tick;
             ScreenImageComposer.Instance.attachWidget(textWidget);
             if (subscribedToSystemStateHandler == false)
             {
@@ -36,13 +54,19 @@ namespace wow
             {
                 Configuration.addConfigEntry(MinutesMinimumBreakTimeString, 1);
                 millisecondsMinimumBreakTime = Int32.Parse(Configuration.getValueString(MinutesMinimumBreakTimeString)) * 60 * 1000;
-                updateTimer.Interval = 5 * 1000;
-                updateTimer.Tick += UpdateTimer_Tick;
+                updateTimer.Interval = 15 * 1000;
                 updateTimer.Start();
                 stopwatch.Start();
                 await individualLockScreen.setInformationtalLockscreen();
                 LockWorkStation();
             }
+        }
+
+        internal void stopBreak()
+        {
+            updateTimer.Stop();
+            stopwatch.Stop();
+            stopwatch.Reset();
         }
 
         private  void UpdateTimer_Tick(object sender, EventArgs e)
@@ -62,6 +86,8 @@ namespace wow
             updateTimer.Start();
         }
 
+
+
         public void Update(ISubject subject)
         {
             if (subject is SystemStateHandler systemStateHandler) 
@@ -69,8 +95,10 @@ namespace wow
                 if (breakStarted == true && systemStateHandler.StateTranstition == SystemStateHandler.state_transtition_t.TO_ACTIVE) 
                 {
                     breakStarted = false;
+                    updateTimer.Enabled = false;
+                    systemStateHandler.Detach(this);
                 }
-                systemStateHandler.Detach(this);
+                
             }
         }
     }

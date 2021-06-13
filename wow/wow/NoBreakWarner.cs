@@ -39,7 +39,7 @@ namespace wow
             switch (response)
             {
                 case BreakRequestUserResponse.ACCEPT:
-                    new UserBreak().startBreak();
+                    UserBreak.Instance.startBreak();
                     break;
                 case BreakRequestUserResponse.SNOOZE:
                     noBreakTimer.Stop();
@@ -61,6 +61,7 @@ namespace wow
                 switch(activityWatcher.ActivityState) 
                 {
                     case ActivityWatcher.activityState_t.ACTIVE:
+                        UserBreak.Instance.stopBreak();
                         noBreakTimer.Start();
                         break;
                     case ActivityWatcher.activityState_t.IDLE:
@@ -75,7 +76,7 @@ namespace wow
                     switch (systemStateHandler.StateTranstition) 
                     {
                         case SystemStateHandler.state_transtition_t.TO_INACTIVE:
-                            new UserBreak().startBreak();
+                            UserBreak.Instance.startBreak();
                             break;
                     }
 

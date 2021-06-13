@@ -60,7 +60,7 @@ namespace wow
 
         private void buttonManualBreak_Click(object sender, EventArgs e)
         {
-            UserBreak ubreak = new UserBreak();
+            UserBreak ubreak = UserBreak.Instance;
             ubreak.startBreak();
         }
     }
