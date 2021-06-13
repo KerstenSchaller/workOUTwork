@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace wow
@@ -8,19 +9,18 @@ namespace wow
         public enum BreakRequestUserResponse{ ACCEPT, SNOOZE, DISMISS};
         private Timer noBreakTimer = new Timer();
 
-        private string MinutesNoBreakWarningString = "MinutesNoBreakWarning";
-        private string MinutesSnoozeTimeString = "MinutesSnoozeTime";
-
-        private int millisecondsNoBreakWarning;
-        private int millisecondsSnoozeTime;
+        ConfigIntParameter minutesNoBreakWarningParam = new ConfigIntParameter("MinutesNoBreakWarning", 1);
+        ConfigIntParameter minutesSnoozeTimeParam = new ConfigIntParameter("MinutesSnoozeTime", 1);
+        ConfigContainer configContainer = new ConfigContainer("NoBreakWarner");
 
         public NoBreakWarner()
         {
-            Configuration.addConfigEntry(MinutesNoBreakWarningString, 1);
-            Configuration.addConfigEntry(MinutesSnoozeTimeString, 1);
-            millisecondsNoBreakWarning = Int32.Parse(Configuration.getValueString(MinutesNoBreakWarningString)) * 60 * 1000;
-            millisecondsSnoozeTime = Int32.Parse(Configuration.getValueString(MinutesSnoozeTimeString)) * 60 * 1000;
-            noBreakTimer.Interval = millisecondsNoBreakWarning;
+            List<ConfigParameter> parameters = new List<ConfigParameter>();
+            parameters.Add(minutesNoBreakWarningParam);
+            parameters.Add(minutesSnoozeTimeParam);
+            configContainer.setParameters(parameters);
+
+            noBreakTimer.Interval = minutesNoBreakWarningParam.getValue() * 60 * 1000;
             TopicBroker.subscribeTopic("ACTIVITY_STATE_CHANGE_EVENT", this);
             TopicBroker.subscribeTopic("SYSTEM_STATE_EVENT", this);
             noBreakTimer.Tick += NoBreakTimer_Tick;
@@ -28,7 +28,7 @@ namespace wow
 
         private void NoBreakTimer_Tick(object sender, EventArgs e)
         {
-            NoBreakWarningForm noBreakWarningForm = new NoBreakWarningForm();
+            NoBreakWarningForm noBreakWarningForm = new NoBreakWarningForm(minutesNoBreakWarningParam.getValue());
             noBreakWarningForm.FormClosed += NoBreakWarningForm_FormClosed;
             noBreakWarningForm.Show();
         }
@@ -43,12 +43,12 @@ namespace wow
                     break;
                 case BreakRequestUserResponse.SNOOZE:
                     noBreakTimer.Stop();
-                    noBreakTimer.Interval = millisecondsSnoozeTime;
+                    noBreakTimer.Interval = minutesSnoozeTimeParam.getValue() * 60 * 1000;
                     noBreakTimer.Start();
                     break;
                 case BreakRequestUserResponse.DISMISS:
                     noBreakTimer.Stop();
-                    noBreakTimer.Interval = millisecondsNoBreakWarning;
+                    noBreakTimer.Interval = minutesNoBreakWarningParam.getValue() * 60 * 1000;
                     noBreakTimer.Start();
                     break;
             }

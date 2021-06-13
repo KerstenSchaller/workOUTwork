@@ -12,17 +12,17 @@ namespace wow
             get { return response; }
         }
 
-        public NoBreakWarningForm()
+        public NoBreakWarningForm(int NoBreakWarningTimeMinutes)
         {
             InitializeComponent();
-            if (Configuration.getNoBreakWarningTimeMinutes() > 60)
+            if (NoBreakWarningTimeMinutes > 60)
             {
-                label1.Text = "You didnt have a break for " + Configuration.getNoBreakWarningTimeMinutes() + " minutes";
+                label1.Text = "You didnt have a break for " + NoBreakWarningTimeMinutes + " minutes";
             }
             else
             {
-                int hours = (int)(Configuration.getNoBreakWarningTimeMinutes() / 60);
-                int minutes = Configuration.getNoBreakWarningTimeMinutes() - hours * 60;
+                int hours = (int)(NoBreakWarningTimeMinutes / 60);
+                int minutes = NoBreakWarningTimeMinutes - (hours * 60);
                 label1.Text = "You didnt have a break for " + hours + " hours and "+ minutes + " minutes";
             }
             

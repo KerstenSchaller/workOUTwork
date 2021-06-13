@@ -6,7 +6,7 @@ using System.IO;
 
 namespace wow
 {
-    static class Configuration
+    static class Configuration 
     {
 
         static string applicationName = "workOUTwork"; // not saved to dictionary
@@ -14,11 +14,11 @@ namespace wow
 
         static string dataBaseNameActiveStateLog = "activeStateLog";
 
-        static Dictionary<string, Configurable> configurableObjects = new Dictionary<string, Configurable>();
+        static Dictionary<string, ConfigContainer> configurableObjects = new Dictionary<string, ConfigContainer>();
 
-        public static List<Configurable> getConfigObjects() 
+        public static List<ConfigContainer> getConfigObjects() 
         {
-            List<Configurable> list = new List<Configurable>();
+            List<ConfigContainer> list = new List<ConfigContainer>();
             foreach(var c in configurableObjects) 
             {
                 list.Add(c.Value);
@@ -26,13 +26,13 @@ namespace wow
             return list; 
         }
 
-        public static Configurable getConfigObjectbyID(string ID) 
+        public static ConfigContainer getConfigObjectbyID(string ID) 
         { 
             
             return configurableObjects[ID]; 
         }
 
-        public static void appendConfigurableObject(Configurable _configurableObject ) 
+        public static void appendConfigurableObject(ConfigContainer _configurableObject ) 
         {
             configurableObjects.Add(_configurableObject.ID, _configurableObject);
             foreach(ConfigParameter param in _configurableObject.getParameters()) 
@@ -52,7 +52,7 @@ namespace wow
             return newIcon;
         }
 
-        public static void addConfigEntry(string key, string configEntryValue)
+        private static void addConfigEntry(string key, string configEntryValue)
         {
             using (PersistentDictionary<string, string> dictionary = new PersistentDictionary<string, string>(getConfigLogPath()))
             {
@@ -77,11 +77,11 @@ namespace wow
                 }
             }
         }
-        public static void addConfigEntry(string key, int configEntryValue)
+        private static void addConfigEntry(string key, int configEntryValue)
         {
             addConfigEntry(key, Convert.ToString(configEntryValue));
         }
-        public static void addConfigEntry(string key, float configEntryValue)
+        private static void addConfigEntry(string key, float configEntryValue)
         {
             addConfigEntry(key, Convert.ToString(configEntryValue));
         }
@@ -110,7 +110,7 @@ namespace wow
                 }
             }
 
-            foreach(Configurable conf in configurableObjects.Values) 
+            foreach(ConfigContainer conf in configurableObjects.Values) 
             {
                 foreach (ConfigParameter param in conf.getParameters()) 
                 {
@@ -128,43 +128,6 @@ namespace wow
         { 
             get { return applicationName; } 
         }
-        public static string DataBaseNameActiveStateLog
-        {
-            get
-            {
-                return getValueString("dataBaseNameActiveStateLog");
-            }
-        }
-
-        public static int secondsToIdle
-        {
-            get
-            {
-                return Int32.Parse(getValueString("secondsToIdle"));
-            }
-        }
-
-        public static int secondsToInactive
-        {
-            get
-            {
-                return Int32.Parse(getValueString("secondsToInactive"));
-
-            }
-        }
-
-
-        public static int getNoBreakWarningTimeMinutes()
-        {
-            return Int32.Parse(getValueString("MinutesNoBreakWarning"));
-        }
-
-        public static string getActiveStateLogPath() 
-        {
-            string baseDataPath = getDataBasePath();
-            string logpath = Path.Combine( baseDataPath, dataBaseNameActiveStateLog);
-            return logpath;      
-        }
 
         public static string getConfigLogPath()
         {
@@ -181,18 +144,17 @@ namespace wow
 
     }
 
-    public abstract class Configurable
+    public class ConfigContainer
     {
         protected List<ConfigParameter> parameters = new List<ConfigParameter>();
         public string ID = null;
 
-        public Configurable(string _id)
+        public ConfigContainer(string _id)
         {
             ID = _id;
-            
         }
 
-        protected void setParameters(List<ConfigParameter> _parameters)
+        public void setParameters(List<ConfigParameter> _parameters)
         {
             parameters = _parameters;
             Configuration.appendConfigurableObject(this);

@@ -33,8 +33,9 @@ namespace wow
         private static bool breakStarted = false;
         private static bool subscribedToSystemStateHandler = false;
 
-        private string MinutesMinimumBreakTimeString = "MinutesMinimumBreakTime";
-        private int millisecondsMinimumBreakTime;
+        ConfigIntParameter minutesMinimumBreakTimeParam = new ConfigIntParameter("MinutesMinimumBreakTime", 5);
+        ConfigContainer configContainer = new ConfigContainer("UserBreak");
+
         private TextWidget textWidget = new TextWidget();
 
         private UserBreak()
@@ -52,8 +53,6 @@ namespace wow
         {
             if (!breakStarted)
             {
-                Configuration.addConfigEntry(MinutesMinimumBreakTimeString, 1);
-                millisecondsMinimumBreakTime = Int32.Parse(Configuration.getValueString(MinutesMinimumBreakTimeString)) * 60 * 1000;
                 updateTimer.Interval = 15 * 1000;
                 updateTimer.Start();
                 stopwatch.Start();
@@ -69,11 +68,11 @@ namespace wow
             stopwatch.Reset();
         }
 
-        private  void UpdateTimer_Tick(object sender, EventArgs e)
+        private void UpdateTimer_Tick(object sender, EventArgs e)
         {
             var elapsedTime = stopwatch.Elapsed;
             textWidget.Text = elapsedTime.ToString();
-            if (elapsedTime <= new TimeSpan(0,0,0,0, millisecondsMinimumBreakTime)) 
+            if (elapsedTime <= new TimeSpan(0, minutesMinimumBreakTimeParam.getValue(), 0)) 
             {
                 textWidget.Textcolor = System.Drawing.Color.DarkRed;
                 individualLockScreen.setInformationtalLockscreen();

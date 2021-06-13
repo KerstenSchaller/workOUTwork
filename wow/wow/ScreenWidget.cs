@@ -46,18 +46,20 @@ namespace wow
         }
     }
 
-    class DilbertWidget : Configurable , IScreenWidget
+    class DilbertWidget : IScreenWidget
     {
         ConfigIntParameter xPosParam = new ConfigIntParameter("dilbert_Widget_X_Position", 50);
         ConfigIntParameter yPosParam = new ConfigIntParameter("dilbert_Widget_Y_Position", 50);
         ConfigIntParameter xSizeParam = new ConfigIntParameter("dilbert_Widget_X_Size", 1000);
+        ConfigContainer configContainer = new ConfigContainer("DilbertWidget");
 
-        public DilbertWidget() : base("xDilbertWidget")
-        {         
-            base.parameters.Add(xPosParam);
-            base.parameters.Add(yPosParam);
-            base.parameters.Add(xSizeParam);
-            this.setParameters(parameters);
+        public DilbertWidget()
+        {
+            List<ConfigParameter> parameters = new List<ConfigParameter>();
+            parameters.Add(xPosParam);
+            parameters.Add(yPosParam);
+            parameters.Add(xSizeParam);
+            configContainer.setParameters(parameters);
         }
         public Image addSelfToBackground(Image image)
         {

@@ -32,7 +32,7 @@ namespace wow
 
 
             int index = (listBoxConfigObjects.SelectedIndex == -1) ? 0 : listBoxConfigObjects.SelectedIndex;
-            Configurable configurable = Configuration.getConfigObjectbyID((string)listBoxConfigObjects.Items[index]);
+            ConfigContainer configurable = Configuration.getConfigObjectbyID((string)listBoxConfigObjects.Items[index]);
             listViewParameters.Clear();
             listViewParameters.Columns.Add("ConfigurationName", 200);
             listViewParameters.Columns.Add("Value", 100);
@@ -48,7 +48,6 @@ namespace wow
         {
             listBoxConfigObjects.Items.Clear();
             var configObjects = Configuration.getConfigObjects();
-
 
             foreach (var confO in configObjects)
             {
@@ -72,7 +71,7 @@ namespace wow
 
         private void listBoxConfigObjects_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            populateListView();
         }
 
         private void button_editParameter_Click(object sender, EventArgs e)

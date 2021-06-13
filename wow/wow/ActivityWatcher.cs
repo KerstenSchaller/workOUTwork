@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 
@@ -12,17 +13,20 @@ namespace wow
         private Timer activeIdleTimeout = new Timer();
         private Stopwatch timeInState = new Stopwatch();
         private TimeSpan timeInLastState;
-        private int timeToIdleMilliSeconds = 5 * 60 * 1000;
-        private int timeToInactiveMilliSeconds = 20 * 60 * 1000;
+
         private bool sensitiveToMouseKeyHandler = true;
+
+        ConfigIntParameter secondsToIdleParam = new ConfigIntParameter("secondsToIdle", 3 * 60 * 1000);
+        ConfigIntParameter secondsToInactiveParam = new ConfigIntParameter("secondsToInactive", 5 * 60 * 1000);
+        ConfigContainer configContainer = new ConfigContainer("ActivityWatcher");
 
         public ActivityWatcher() 
         {
-            Configuration.addConfigEntry("secondsToIdle", 3 * 60 * 1000);
-            Configuration.addConfigEntry("secondsToInactive", 5 * 60 * 1000);
-            
-            timeToIdleMilliSeconds = Configuration.secondsToIdle * 1000;
-            timeToInactiveMilliSeconds = Configuration.secondsToInactive * 1000;
+            List<ConfigParameter> parameters = new List<ConfigParameter>();
+            parameters.Add(secondsToIdleParam);
+            parameters.Add(secondsToInactiveParam);
+            configContainer.setParameters(parameters);
+
             TopicBroker.publishTopic("ACTIVITY_STATE_CHANGE_EVENT", this);
         }
 
@@ -31,7 +35,7 @@ namespace wow
             timeInState.Start();
             TopicBroker.subscribeTopic("MOUSE_KEY_EVENT", this);
             TopicBroker.subscribeTopic("SYSTEM_STATE_EVENT", this);
-            activeIdleTimeout.Interval = timeToIdleMilliSeconds;
+            activeIdleTimeout.Interval = secondsToIdleParam.getValue()*1000;
             activeIdleTimeout.Tick += new EventHandler(idleTimeoutCallback);
             activeIdleTimeout.Start();
             
@@ -80,7 +84,7 @@ namespace wow
         private void ToIdle() 
         {
             activeIdleTimeout.Stop();
-            activeIdleTimeout.Interval = timeToInactiveMilliSeconds;
+            activeIdleTimeout.Interval = secondsToInactiveParam.getValue()*1000;
             activeIdleTimeout.Start();
             timeInLastState = timeInState.Elapsed;
             timeInState.Restart();
@@ -92,7 +96,7 @@ namespace wow
         {
             sensitiveToMouseKeyHandler = true;
             activeIdleTimeout.Stop();
-            activeIdleTimeout.Interval = timeToIdleMilliSeconds;
+            activeIdleTimeout.Interval = secondsToIdleParam.getValue() * 1000; ;
             activeIdleTimeout.Start();
             timeInLastState = timeInState.Elapsed;
             timeInState.Restart();
@@ -111,7 +115,7 @@ namespace wow
                 else
                 {
                     activeIdleTimeout.Stop();
-                    activeIdleTimeout.Interval = timeToIdleMilliSeconds;
+                    activeIdleTimeout.Interval = secondsToIdleParam.getValue() * 1000; ;
                     activeIdleTimeout.Start();
                 }
             }
