@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -34,12 +35,18 @@ namespace wow
         private static bool subscribedToSystemStateHandler = false;
 
         ConfigIntParameter minutesMinimumBreakTimeParam = new ConfigIntParameter("MinutesMinimumBreakTime", 5);
+        ConfigIntParameter secondsDisplayUpdateParam = new ConfigIntParameter("secondsDisplayUpdate", 5);
         ConfigContainer configContainer = new ConfigContainer("UserBreak");
 
         private TextWidget textWidget = new TextWidget();
 
         private UserBreak()
         {
+            List<ConfigParameter> parameters = new List<ConfigParameter>();
+            parameters.Add(minutesMinimumBreakTimeParam);
+            parameters.Add(secondsDisplayUpdateParam);
+            configContainer.setParameters(parameters);
+
             updateTimer.Tick += UpdateTimer_Tick;
             ScreenImageComposer.Instance.attachWidget(textWidget);
             if (subscribedToSystemStateHandler == false)
@@ -53,7 +60,7 @@ namespace wow
         {
             if (!breakStarted)
             {
-                updateTimer.Interval = 15 * 1000;
+                updateTimer.Interval = secondsDisplayUpdateParam.getValue() * 1000;
                 updateTimer.Start();
                 stopwatch.Start();
                 await individualLockScreen.setInformationtalLockscreen();
@@ -66,6 +73,7 @@ namespace wow
             updateTimer.Stop();
             stopwatch.Stop();
             stopwatch.Reset();
+            individualLockScreen.stop();
         }
 
         private void UpdateTimer_Tick(object sender, EventArgs e)
@@ -75,12 +83,10 @@ namespace wow
             if (elapsedTime <= new TimeSpan(0, minutesMinimumBreakTimeParam.getValue(), 0)) 
             {
                 textWidget.Textcolor = System.Drawing.Color.DarkRed;
-                individualLockScreen.setInformationtalLockscreen();
             }
             else
             {
                 textWidget.Textcolor = System.Drawing.Color.Green;
-                individualLockScreen.setInformationtalLockscreen();
             }
             updateTimer.Start();
         }
